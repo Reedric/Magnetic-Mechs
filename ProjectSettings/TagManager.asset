@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - CutsceneManager
+  - AllCutscenes
+  - DialogueBox
+  - DialogueText
+  - DialogueImage
+  - DialogueAudio
+  - PlayerHealth
+  - BulletSpawner
+  - TutorialEnding
+  - AllEvents
+  - Logic
+  - Magnet
+  - PromptText
+  - AllPrompts
+  - ShootingPrompt
+  - DirectionalArrow
+  - DirectionalArrowOrientation
+  - KillPilotPrompt
+  - LastCutscenePartThree
+  - LastCutscenePartFour
+  - TitleDrop
+  - Civilian
+  - PilotsDeath
+  - RobotSpiderQueen
+  - RobotSpiderQueenHealth
+  - MultiSceneVariables
+  - MagnetSpawner
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - Ground
+  - Enemy
+  - Player Bullet
+  - Dead Enemy
+  - text
+  - PlayerOverLayer
+  - DeathPit
+  - Enemy Bullet
+  - Plank Ground
+  - Laser
+  - Rock
+  - Wall
+  - Despawn
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
