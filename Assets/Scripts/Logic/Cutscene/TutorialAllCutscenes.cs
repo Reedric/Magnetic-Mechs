@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TutorialAllCutscenes : MonoBehaviour
 {
+    //a file which holds all of the dialgoue, images and sounds used in cutscenes
     public Dictionary<string,Dialogue> cutscenes;
     private Dictionary<string, string> imageLocations;
     private Dictionary<string, string> audioLocations;

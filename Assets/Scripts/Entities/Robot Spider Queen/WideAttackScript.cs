@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 //using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class WideAttackScript : BulletSpawnerParent
 {
+    //script for managing the spider queens wide cone attack
     [Header("Components")]
     public LineRenderer myLineRenderer;
     public LayerMask blockLaserLayers;
@@ -49,12 +51,6 @@ public class WideAttackScript : BulletSpawnerParent
     {
         laserTime = laserTimeStage2;
         shotsOnEachSide = shotsOnEachSideStage2;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
     private void FixedUpdate()
     {
@@ -102,6 +98,7 @@ public class WideAttackScript : BulletSpawnerParent
     }
     public IEnumerator freezeLaser()
     {
+        //Handles making the targetting laser flash white and red
         float numberOfFlashes = laserTime * 5;
         for(int i = 0; i < numberOfFlashes; i++)
         {
@@ -124,6 +121,7 @@ public class WideAttackScript : BulletSpawnerParent
     }
     public  IEnumerator startShooting()
     {
+        //starts the countdown between locking on and shooting
         yield return new WaitForSeconds(shootDelay);
         ShootWide();
     }

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class LogicScript : MonoBehaviour
 {
+    //A singleton intended to hold functions that are used regularly by other scripts
     [Header("Components")]
     public GameObject gameOverScreen;
     public GameObject pauseScreen;

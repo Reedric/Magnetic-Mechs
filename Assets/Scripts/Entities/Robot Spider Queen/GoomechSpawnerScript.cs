@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GoomechSpawnerScript : MonoBehaviour
 {
+    //script for spawning goomechs during the robot spider queen boss fight
     [Header("Number of Goomechs")]
     private GameObject[] GoomechsArray;
     private Queue<int> GoomechsAvailableQueue;

@@ -5,6 +5,7 @@ using UnityEngine.U2D;
 
 public class RobotSpiderQueenScript : MonoBehaviour
 {
+    //main script for the Robot Spider Queen
     [Header("Horizontal Movement")]
     public float speed = 3;
     public bool facingRight;
@@ -58,6 +59,7 @@ public class RobotSpiderQueenScript : MonoBehaviour
     }
     private void Update()
     {
+        //handles walking
         if (!bossActive) return;
         movementEnabled = true;
         groundInFront = Physics2D.Raycast(transform.position + Vector3.right * horizontalCheckLength * (facingRight ? 1 : -1), Vector2.down, groundCheckHeight, groundLayer);
@@ -104,6 +106,7 @@ public class RobotSpiderQueenScript : MonoBehaviour
     }
     private void triggerBigAttack()
     {
+        //triggers one of the two big attacks (the cone or sweeping laser)
         attackTimer = 0;
         float randDecimal = Random.Range(0.0f, 1.0f);
         randDecimal += currentAttackModifier;

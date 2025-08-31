@@ -13,6 +13,7 @@ public class PlayPromptScript : MonoBehaviour
     private PromptUIScript promptUIScript;
     void Start()
     {
+        //holds the logic associate with an object which plays a prompt under certain circumstances
         GameObject promptUI = GameObject.FindGameObjectWithTag("PromptText");
         if (promptUI != null) promptUIScript = promptUI.GetComponent<PromptUIScript>();
         else Debug.Log("Can't find PromptText");

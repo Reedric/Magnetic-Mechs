@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraPositionScript : MonoBehaviour
 {
+    //sets the position of the an object to a spot between the player and the boss so that the camera can follow it
     [Header("Components")]
     public Transform playerTransform;
     public Transform bossTransform;

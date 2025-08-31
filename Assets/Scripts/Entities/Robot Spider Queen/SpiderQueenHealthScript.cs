@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SpiderQueenHealthScript : MonoBehaviour
 {
+    //manages health for the robot spider queen
     [Header("Components")]
     //public GameObject Player;
     private RobotSpiderQueenScript robotSpiderQueenScript;

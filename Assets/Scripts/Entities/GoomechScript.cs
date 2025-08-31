@@ -6,6 +6,7 @@ using UnityEngine.U2D;
 
 public class GoomechScript : MonoBehaviour
 {
+    //code for the goomech
     [Header("Starting Behavior")]
     public bool startingBehavior = false;
     public float startingTime = 2f;
@@ -100,6 +101,7 @@ public class GoomechScript : MonoBehaviour
     }
     public void startSpawnBehavior()
     {
+        //starts the traits that are active for a few seconds after a goomech is spawned
         myCollider.enabled = false;
         myRigidBody2D.gravityScale = 0;
         startingBehavior = true;
@@ -109,6 +111,7 @@ public class GoomechScript : MonoBehaviour
     }
     public IEnumerator endSpawnBehavior()
     {
+        //ends the traits that are active for a few seconds after a goomech is spawned
         yield return new WaitForSeconds(startingTime);
         myCollider.enabled = true;
         myRigidBody2D.gravityScale = 1;
@@ -122,6 +125,7 @@ public class GoomechScript : MonoBehaviour
     }
     private void handleTargetingReticle()
     {
+        //turns the targeting prompt on and off during the tutorial
         if (playerTransform == null||shootingPromptScript == null) return;
         if (isAlive && (Vector2.Distance((Vector2)playerTransform.position, myRigidBody2D.position) <= reticleDistance))
         {

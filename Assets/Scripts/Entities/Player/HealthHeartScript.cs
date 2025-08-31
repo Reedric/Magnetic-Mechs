@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class HealthHeartScript : MonoBehaviour
 {
+    //script for managing heart containers on the UI
     private GameObject[] heartContainers;
     private Image[] heartFills;
     [Header("Components")]

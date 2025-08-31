@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MagnetProjectileScript : MonoBehaviour
 {
+    //code for the magnet projectile
     private float deathTime;
     private float startCollidingTime;
     private Rigidbody2D myRigidBody;

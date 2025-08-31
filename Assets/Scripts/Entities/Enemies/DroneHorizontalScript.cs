@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DroneHorizontalScript : MonoBehaviour
 {
+    //the script for individual drones which fly horizontally
     [Header("Horizontal Movement")]
     public float speed = 4;
     public float speedModifier = 2;

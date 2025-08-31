@@ -8,6 +8,7 @@ using UnityEngine.Windows;
 
 public class ButtonSelectionManager : MonoBehaviour
 {
+    //manages selecting buttons in the menu and pause screen
     [Header("Game Objects")]
     public Transform ButtonParent;
     [Header("Variables")]
@@ -28,7 +29,6 @@ public class ButtonSelectionManager : MonoBehaviour
     }
     public void Move(InputAction.CallbackContext context)
     {
-        Debug.Log("test");
         float change = context.ReadValue<Vector2>().x;
         if(Time.realtimeSinceStartup > readyToChange)
         {

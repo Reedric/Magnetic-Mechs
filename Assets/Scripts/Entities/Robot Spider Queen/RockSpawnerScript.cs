@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RockSpawnerScript : MonoBehaviour
 {
+    //script for spawning rocks during the robot spider queens second phase
     [Header("Components")]
     public GameObject rockPrefab;
     [Header("Manage Spawn")]

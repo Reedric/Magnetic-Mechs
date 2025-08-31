@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DroneSpawnerScript : MonoBehaviour
 {
+    //script responsible for spawning drones
     [Header("Number of Drones")]
     private GameObject[] DronesArray;
     private Queue<int> DronesAvailableQueue;

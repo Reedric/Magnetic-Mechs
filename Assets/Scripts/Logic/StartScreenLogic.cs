@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class StartScreenLogic : MonoBehaviour
 {
+    //holds the logic for functions which are called into during the starting screen
     public GameObject startScreenStart;
     public GameObject startScreenLevelSelect;
     public MultiSceneVariables variableStorage;

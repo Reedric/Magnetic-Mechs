@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpiderQueenBulletSpawnerScript : BulletSpawnerParent
 {
+    //handles spawning bullets for the robot spider queen
     [Header("Components")]
     //public GameObject bulletPrefab;
     //public GameObject MuzzlePrefab;

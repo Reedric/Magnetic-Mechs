@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PauseLogicScript : MonoBehaviour
 {
-    
+    //holds all of the functions used for the pause screen
     public void TryAgain()
     {
         LogicScript.logicSingleton.TryAgain();

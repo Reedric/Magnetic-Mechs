@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BossTriggerScript : MonoBehaviour
 {
+    //triggers the robot spider queen boss fight by closing walls, activating the boss, and updating the camera
     [Header("Components")]
     public RobotSpiderQueenScript RobotSpiderQueenScript;
     //public RockSpawnerScript rockSpawnerScript;

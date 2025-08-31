@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MagnetVisualEffectScript : MonoBehaviour
 {
+    //script for spawning the staticy effects associated with the magnet being on
     [Header("References")]
     public GameObject Magnet;
     public GameObject EffectPrefab;

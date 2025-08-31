@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CivilianScript : MonoBehaviour
 {
+    //handles the script for turning the targetting reticule on for players
     [Header("Components")]
     public GameObject targetingReticle;
 
