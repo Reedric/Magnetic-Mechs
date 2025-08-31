@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
+    //this is a test
     private float deathTime;
     private float startCollidingTime;
     [Header("Components")]

@@ -9,7 +9,7 @@ public class StartNextLevel : MonoBehaviour
     public float timeToWait = 1.5f;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 3) StartCoroutine(StartTutorialStage4()) ;
+        if (collision.gameObject.layer == 3) StartCoroutine(StartTutorialStage4());
     }
     public IEnumerator StartTutorialStage4()
     {
