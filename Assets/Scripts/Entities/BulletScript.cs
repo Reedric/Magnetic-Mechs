@@ -27,6 +27,7 @@ public class BulletScript : MonoBehaviour
     }
     public void SetDeathTime()
     {
+        //sets time to kill the bullet if it hasn't hit anything yet
         deathTime = Time.time + 3;
     }
     private void OnTriggerEnter2D(Collider2D collision)

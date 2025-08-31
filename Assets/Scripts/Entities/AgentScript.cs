@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AgentScript : MonoBehaviour
 {
+    //old script for an agent which was used as part of a cutscene. likely to be deleted
     public float fallingSpeed = 4f;
     [Header("Components")]
     public Rigidbody2D myRigidBody2D;

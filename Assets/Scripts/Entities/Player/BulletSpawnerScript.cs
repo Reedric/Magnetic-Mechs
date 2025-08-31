@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class BulletSpawnerScript : BulletSpawnerParent
 {
+    //main script for spawning bullets for the player
     [Header("Variables")]
     private float reloadTime = .55f;
     private float timer;

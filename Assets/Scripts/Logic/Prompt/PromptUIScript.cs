@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public class PromptUIScript : MonoBehaviour
 {
-
+    //handles the UI for prompts during the tutorial level
     private Text promptText;
     private Prompt currentPrompt;
     [Header("parameters")]

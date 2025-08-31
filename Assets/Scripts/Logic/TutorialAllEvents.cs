@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+//A script to hold all of the event
 public class TutorialAllEvents : MonoBehaviour
 {
+    //Holds the scripts for the events which play out in cutscenes during the tutorial level
     [Header("Components")]
     private Text title;
     public Queue<CivilianScript> civilianScripts;
@@ -72,6 +74,7 @@ public class TutorialAllEvents : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //manages the cutscene for killing the pilot. Will likely end up being 
         if(playerScript == null) return;
         if (startKillingPilot) {
             if (playerScript.gamePadNotMouse)
@@ -96,6 +99,7 @@ public class TutorialAllEvents : MonoBehaviour
     //public functions
     public void AfterAgentDestroyed()
     {
+
         enablePlayerMovement();
         promptUIScript.stopIndefinitePrompt();
         StartCoroutine(TriggerFinalCutscenePartTwo());

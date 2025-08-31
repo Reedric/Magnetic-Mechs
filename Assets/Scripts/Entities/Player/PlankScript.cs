@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlankScript : MonoBehaviour
 {
+    //script for managing dropping the player through wooden platforms
     [Header("Layers")]
     public LayerMask playerLayer;
     public LayerMask plankGroundLayer;

@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class CutsceneScript : MonoBehaviour
 {
+    //this scripts is set on each cutscene object, and manages displaying that cutscene
     private Dialogue currentDialogue;
     private GameObject allCutscenes;
     private bool hasNotTriggered;

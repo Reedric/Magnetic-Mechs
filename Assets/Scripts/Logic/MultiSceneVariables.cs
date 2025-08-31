@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MultiSceneVariables : MonoBehaviour
 {
+    //holds variables which are meant to persist across multiple scenes
     [Header("Multi Scene Variables")]
     public bool gamePadNotMouse = false;
     [Header("Singleton")]

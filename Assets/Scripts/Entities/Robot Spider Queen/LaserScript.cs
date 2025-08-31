@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LaserScript : MonoBehaviour
 {
+    //script for managing the robot spider queen's sweeping laser attack
     [Header("Components")]
     public LayerMask blockLaserLayers;
     public GameObject laserSpawnMiddle;

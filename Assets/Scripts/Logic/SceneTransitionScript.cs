@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SceneTransitionScript : MonoBehaviour
 {
+    //hold the logic for starting level 2 when the associated object touches the player. Probably deprecated.
     [Header("Components")]
     public LogicScript logic;
     void Awake()

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JetpackScript : MonoBehaviour
 {
+    //script for managing the UI associated with the jetpack
     [Header("Components")]
     public Animator animator;
 

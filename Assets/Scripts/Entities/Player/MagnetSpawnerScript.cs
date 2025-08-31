@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MagnetSpawnerScript : MonoBehaviour
 {
+    //script for launching the magnet from the player
     private float LaunchForce = 35f;
     public float reloadTime = 1f;
     private float timer;

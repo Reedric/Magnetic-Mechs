@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TutorialAllPrompts : MonoBehaviour
 {
+    //holds all prompts which might appear to the player during the tutorial
     public Dictionary<string, Prompt> prompts;
     private Dictionary<string, float> priorityOrder;
     public MultiSceneVariables savedVariables;

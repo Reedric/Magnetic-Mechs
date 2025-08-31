@@ -8,6 +8,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Dialogue : MonoBehaviour
 {
+    //handles turning on the dialogue box and displaying the appropriate diagloue
     private string title;
     private Queue<DialogueIndividualLine> dialogue;
     private float endCutsceneTime;

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class RockScript : MonoBehaviour
 {
+    //script for the rocks which spawn during the robot spider queens second phase
     [Header("Components")]
     public Rigidbody2D myRigidbody2D;
     [Header("variables")]

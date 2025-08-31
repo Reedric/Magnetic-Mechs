@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
+    //main script for managing the player
     [Header("Components")]
     public Rigidbody2D myRigidbody2D;
     public Animator animator;
@@ -276,6 +277,7 @@ public class PlayerScript : MonoBehaviour
     }
     void adjustMaxXSpeed()
     {
+        //turns on damping if the player is above a certain x speed
         float currentMaxSpeed = maxSpeed;
         if (repelOn ^ attractOn)
         {
@@ -301,6 +303,7 @@ public class PlayerScript : MonoBehaviour
     }
     void adjustMaxYSpeed()
     {
+        //turns on damping if the player is above a certain y speed
         float currentMaxSpeed = maxYSpeed;
         if (repelOn ^ attractOn)
         {
@@ -342,6 +345,7 @@ public class PlayerScript : MonoBehaviour
     }
     void handleVerticalMovement()
     {
+        //handles checks and related to vertical movement once every Update cycle
         if (trulyOnGround && jumpTimer > Time.time)
         {
             jump();

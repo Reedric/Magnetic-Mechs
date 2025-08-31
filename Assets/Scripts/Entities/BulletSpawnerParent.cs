@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BulletSpawnerParent : MonoBehaviour
 {
+    //the parent class for scripts which spawn bullets
     [Header("Objects")]
     protected int maxBullets = 10;
     protected GameObject muzzleEffect;
@@ -21,6 +22,7 @@ public class BulletSpawnerParent : MonoBehaviour
     protected float bulletForce;
     protected void SetUpGameObjects()
     {
+        //sets up all of the objects the bullet spawner uses
         if (MuzzlePrefab != null)
         {
             muzzleEffect = Instantiate(MuzzlePrefab, muzzleSpawnpoint.transform.position, transform.rotation);

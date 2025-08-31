@@ -5,6 +5,7 @@ using UnityEngine.U2D;
 
 public class PlayerHealthScript : MonoBehaviour
 {
+    //script for managing the players health
     [Header("Components")]
     public GameObject Player;
     private PlayerScript playerScript;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MagnetEffectScript : MonoBehaviour
 {
+    //code for making the effect when the magnet is active move
     private float speed = 9.5f;
     // Start is called before the first frame update
     void Start()
