@@ -4,39 +4,59 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Slider musicSlider;
 
     private AudioMixer mixer;
-    private AudioMixerGroup masterGroup;
+    private AudioMixerGroup sfxGroup;
+    private AudioMixerGroup musicGroup;
     private AudioSource[] allSources;
 
     void Start()
     {
+        PlayerPrefs.DeleteKey("audioVolume");
         mixer = (AudioMixer) Resources.Load("AudioMixer/Volume Control");
         allSources = FindObjectsByType<AudioSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        masterGroup = mixer.FindMatchingGroups("Master")[0];
+        sfxGroup = mixer.FindMatchingGroups("SFX")[0];
+        musicGroup = mixer.FindMatchingGroups("Music")[0];
         foreach (AudioSource source in allSources)
         {
-            source.outputAudioMixerGroup = masterGroup;
+            if (source.gameObject.tag != "MusicSource")
+            {
+                source.outputAudioMixerGroup = sfxGroup;
+            }
+            else
+            {
+                source.outputAudioMixerGroup = musicGroup;
+            }
         }
         LoadVolume();
     }
 
     public void SetAudioVolume()
     {
-        float volume = volumeSlider.value;
-        mixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("audioVolume", volume);
+        float sfxVolume = sfxSlider.value;
+        float musicVolume = musicSlider.value;
+        mixer.SetFloat("SFXVolume", Mathf.Log10(sfxVolume) * 20);
+        mixer.SetFloat("MusicVolume", Mathf.Log10(musicVolume) * 20);
+        PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
+        PlayerPrefs.SetFloat("musicVolume", musicVolume);
     }
 
     private void LoadVolume()
     {
-        if (!PlayerPrefs.HasKey("audioVolume"))
+        if (!PlayerPrefs.HasKey("sfxVolume"))
         {
-            PlayerPrefs.SetFloat("audioVolume", 1);
+            PlayerPrefs.SetFloat("sfxVolume", 1.0f);
         }
 
-        volumeSlider.value = PlayerPrefs.GetFloat("audioVolume");
+        if (!PlayerPrefs.HasKey("musicVolume"))
+        {
+            PlayerPrefs.SetFloat("musicVolume", 1.0f);
+        }
+
+        sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
 
         SetAudioVolume();
     }
