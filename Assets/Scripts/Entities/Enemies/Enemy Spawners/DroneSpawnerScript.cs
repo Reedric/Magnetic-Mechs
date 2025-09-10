@@ -13,7 +13,6 @@ public class DroneSpawnerScript : MonoBehaviour
     private float timeToSpawn;
     private float timer;
     public bool active = false;
-    private GameObject[] droneArray;
     [Header("Components")]
     public GameObject dronePrefab;
     public Transform playerTransform;

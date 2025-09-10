@@ -39,6 +39,10 @@ public class LaserScript : MonoBehaviour
     public float rotationSpeedStage2 = 28f;
     public float laserPointerTimeStage2 = 1f;
     public float goThroughDegreesStage2 = 540f;
+    [Header("Explosion Arrays")]
+    private GameObject[] ExplosionArray;
+    private Queue<int> ExplosionsAvailableQueue;
+    private int maxExplosions = 10;
     void Awake()
     {
         laserAngle = 0;
@@ -54,7 +58,26 @@ public class LaserScript : MonoBehaviour
         GameObject robotSpiderQueen = GameObject.FindGameObjectWithTag("RobotSpiderQueen");
         if (robotSpiderQueen != null) robotSpiderQueenScript = robotSpiderQueen.GetComponent<RobotSpiderQueenScript>();
         else Debug.Log("Robot Spider Queen could not be found");
+        SetUpExplosionArrays();
         TriggerStage1();
+    }
+    private void SetUpExplosionArrays()
+    {
+        ExplosionArray = new GameObject[maxExplosions];
+        for (int i = 0; i < maxExplosions; i++)
+        {
+            GameObject tempExplosion = Instantiate(explosionEffect, transform.position, Quaternion.Euler(0, 0, 0));
+            ExplosionArray[i] = tempExplosion;
+            tempExplosion.SetActive(false);
+            ExplosionScript tempExplosionScript = tempExplosion.GetComponent<ExplosionScript>();
+            tempExplosionScript.laserScript = this;
+            tempExplosionScript.index = i;
+        }
+        ExplosionsAvailableQueue = new Queue<int>();
+        for (int i = 0; i < maxExplosions; i++)
+        {
+            ExplosionsAvailableQueue.Enqueue(i);
+        }
     }
     private void TriggerStage1()
     {
@@ -158,7 +181,7 @@ public class LaserScript : MonoBehaviour
     {
         lineRenderer.SetPosition(0, startPosition);
         lineRenderer.SetPosition(1, endPosition);
-        if (explosionTimer > explosionTime)
+        if (explosionTimer > explosionTime && ExplosionsAvailableQueue.Count >0)
         {
             CreateExplosion(startPosition, endPosition);
             explosionTimer = 0;
@@ -177,8 +200,18 @@ public class LaserScript : MonoBehaviour
         endPoint.z -= .1f;
         endPoint.x -= .01f * (endPoint.x - startPoint.x);
         endPoint.y -= .02f * (endPoint.y - startPoint.y) - explosionOffset;
+
+        int currentIndex = ExplosionsAvailableQueue.Dequeue();
+        GameObject tempExplosion = ExplosionArray[currentIndex];
+        tempExplosion.SetActive(true);
+        tempExplosion.transform.position = endPoint;
+        tempExplosion.GetComponent<ExplosionScript>().restartExplosion();
         GameObject effect = Instantiate(explosionEffect, endPoint, Quaternion.identity);
         Destroy(effect, effect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+    }
+    public void ExplosionKilled(int index)
+    {
+        ExplosionsAvailableQueue.Enqueue(index);
     }
     void stopLaser()
     {

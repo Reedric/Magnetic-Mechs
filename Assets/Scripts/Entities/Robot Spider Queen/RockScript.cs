@@ -8,6 +8,9 @@ public class RockScript : MonoBehaviour
     //script for the rocks which spawn during the robot spider queens second phase
     [Header("Components")]
     public Rigidbody2D myRigidbody2D;
+    public RockSpawnerScript RockSpawnerScript;
+
+    public int index;
     [Header("variables")]
     public float speed = 3;
     public LayerMask destroyLayers;
@@ -20,7 +23,7 @@ public class RockScript : MonoBehaviour
     {
         if (transform.position.y < -3)
         {
-            Destroy(gameObject);
+            HandleDeath();
         }
     }
     void FixedUpdate()
@@ -31,7 +34,12 @@ public class RockScript : MonoBehaviour
     {
         if (destroyLayers == (destroyLayers | (1 << collision.gameObject.layer)))
         {
-            Destroy(gameObject);
+            HandleDeath();
         }
+    }
+    void HandleDeath()
+    {
+        if (RockSpawnerScript != null) RockSpawnerScript.RockDestroyed(index);
+        gameObject.SetActive(false);
     }
 }
