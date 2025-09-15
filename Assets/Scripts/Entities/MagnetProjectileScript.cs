@@ -20,6 +20,13 @@ public class MagnetProjectileScript : MonoBehaviour
             myRigidBody.linearVelocity = Vector3.zero;
             GetComponent<CapsuleCollider2D>().enabled = false;
         }
+        else if (collision.gameObject.layer == 19)
+        {
+            myRigidBody.linearVelocity = Vector3.zero;
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            myRigidBody.bodyType = RigidbodyType2D.Kinematic;
+            gameObject.transform.SetParent(collision.transform);
+        }
     }
     public void DestroyThis()
     {
