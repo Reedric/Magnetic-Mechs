@@ -443,20 +443,34 @@ public class PlayerScript : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 7)
+        if (collision.gameObject.layer == 7) // enemy
         {
             Vector2 relativePosition = transform.position - collision.transform.position;
             float knockbackVal = 1;
             if (collision.gameObject.tag == "RobotSpiderQueen")
             {
-                knockbackVal = 3.5f;
+                knockbackVal = 1.5f;
+                if (relativePosition.y > Math.Abs(relativePosition.x) / .9f)
+                {
+                    knockbackVal = 3.25f;
+                }
             }
             DamagePlayer(1, relativePosition.normalized, knockbackVal);
         }
-        if (collision.gameObject.layer == 12)
+        if (collision.gameObject.layer == 12) // death pit
+        {
+            //Vector2 relativePosition = transform.position - collision.transform.position;
+            DamagePlayer(16,new Vector2(0,0));
+        }
+        if(collision.gameObject.layer == 19) // spike
         {
             Vector2 relativePosition = transform.position - collision.transform.position;
-            DamagePlayer(16,new Vector2(0,0));
+            float knockbackVal = .5f;
+            if (relativePosition.y > Math.Abs(relativePosition.x) / .9f)
+            {
+                knockbackVal = 1.25f;
+            }
+            DamagePlayer(1, relativePosition.normalized, knockbackVal);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
