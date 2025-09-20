@@ -72,6 +72,18 @@ public class PlayerScript : MonoBehaviour
     public float maxYSpeedDelay = .6f;
     public float jumpForce = 10f;
 
+    [Header("Charging")]
+    public bool chargePressed = false;
+    public bool isInvincible = false;
+    public float chargeTime = 1f;
+    private float chargeTimer = 0f;
+    public float chargeCooldown = 3f;
+    private float chargeCooldownTimer = 0f;
+    public float chargeSpeed = 22f;
+    public Sprite chargeIndicatorImage;
+    public Sprite invincibilityIndicatorImage;
+    public SpriteRenderer chargeIndicator;
+
     [Header("Jetpack")]
     public float jetpackTotalTime = 5f;
     public float jetpackCurrentTime = 0f;
@@ -146,6 +158,7 @@ public class PlayerScript : MonoBehaviour
         magnetSpawnerScript = MagnetSpawner.GetComponent<MagnetSpawnerScript>();
         groundLayer = LayerMask.GetMask("Ground","Plank Ground");
         jetpackCurrentTime = jetpackTotalTime;
+        chargeCooldown += chargeTime;
     }
 
     // Update is called once per frame
@@ -248,6 +261,42 @@ public class PlayerScript : MonoBehaviour
         jetpackBackwardsOn = !trulyOnGround && Mathf.Abs(direction) > 0;
         jetpackBackwards.GetComponent<JetpackScript>().setJetpack(jetpackBackwardsOn);
         //jumpPressed = false;
+
+        // check if we have hit charging speed
+        if (myRigidbody2D.linearVelocity.magnitude >= chargeSpeed && !healthScript.invincible)
+        {
+            if (!isInvincible)
+            {
+                chargeIndicator.sprite = chargeIndicatorImage;
+            }
+            
+            // start charging
+            if (chargePressed && chargeCooldownTimer <= 0f)
+            {
+                chargeTimer = chargeTime;
+                chargeCooldownTimer = chargeCooldown;
+            }
+        }
+        else
+        {
+            if (!isInvincible)
+            {
+                chargeIndicator.sprite = null;
+            }
+        }
+
+        if (chargeTimer > 0f && !isInvincible)
+        {
+            isInvincible = true;
+            chargeIndicator.sprite = invincibilityIndicatorImage;
+        }
+        else if (isInvincible)
+        {
+            isInvincible = false;
+        }
+
+        chargeTimer -= Time.deltaTime;
+        chargeCooldownTimer -= Time.deltaTime;
     }
     private void FixedUpdate()
     {
@@ -443,34 +492,37 @@ public class PlayerScript : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 7) // enemy
+        if (!isInvincible)
         {
-            Vector2 relativePosition = transform.position - collision.transform.position;
-            float knockbackVal = 1;
-            if (collision.gameObject.tag == "RobotSpiderQueen")
+            if (collision.gameObject.layer == 7) // enemy
             {
-                knockbackVal = 1.5f;
+                Vector2 relativePosition = transform.position - collision.transform.position;
+                float knockbackVal = 1;
+                if (collision.gameObject.tag == "RobotSpiderQueen")
+                {
+                    knockbackVal = 1.5f;
+                    if (relativePosition.y > Math.Abs(relativePosition.x) / .9f)
+                    {
+                        knockbackVal = 3.25f;
+                    }
+                }
+                DamagePlayer(1, relativePosition.normalized, knockbackVal);
+            }
+            if (collision.gameObject.layer == 12) // death pit
+            {
+                //Vector2 relativePosition = transform.position - collision.transform.position;
+                DamagePlayer(16, new Vector2(0, 0));
+            }
+            if (collision.gameObject.layer == 19) // spike
+            {
+                Vector2 relativePosition = transform.position - collision.transform.position;
+                float knockbackVal = .5f;
                 if (relativePosition.y > Math.Abs(relativePosition.x) / .9f)
                 {
-                    knockbackVal = 3.25f;
+                    knockbackVal = 1.25f;
                 }
+                DamagePlayer(1, relativePosition.normalized, knockbackVal);
             }
-            DamagePlayer(1, relativePosition.normalized, knockbackVal);
-        }
-        if (collision.gameObject.layer == 12) // death pit
-        {
-            //Vector2 relativePosition = transform.position - collision.transform.position;
-            DamagePlayer(16,new Vector2(0,0));
-        }
-        if(collision.gameObject.layer == 19) // spike
-        {
-            Vector2 relativePosition = transform.position - collision.transform.position;
-            float knockbackVal = .5f;
-            if (relativePosition.y > Math.Abs(relativePosition.x) / .9f)
-            {
-                knockbackVal = 1.25f;
-            }
-            DamagePlayer(1, relativePosition.normalized, knockbackVal);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -598,6 +650,19 @@ public class PlayerScript : MonoBehaviour
             jumpPressed = false;
         }
     }
+
+    public void ChargeInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            chargePressed = true;
+        }
+        if (context.canceled)
+        {
+            chargePressed = false;
+        }
+    }
+
     public void ShootingInput(InputAction.CallbackContext context)
     {
         if (context.performed)
