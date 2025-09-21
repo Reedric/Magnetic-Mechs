@@ -131,9 +131,6 @@ public class DroneHorizontalScript : MonoBehaviour
         animator.SetBool("hasDied", true);
         myRigidBody2D.linearVelocity = new Vector3(0, 0, 0);
         DeathSound.Play();
-        //gameObject.layer = 9;
-        //Debug.Log(gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
-        //Destroy(gameObject, gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
         myCollider.enabled = false;
         StartCoroutine(HandleDeath());
     }

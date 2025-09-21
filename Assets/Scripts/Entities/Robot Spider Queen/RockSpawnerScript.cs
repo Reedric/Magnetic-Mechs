@@ -13,11 +13,35 @@ public class RockSpawnerScript : MonoBehaviour
     [Header("Stages")]
     private bool notStarted = true;
     // Start is called before the first frame update
+    [Header("Manage Queue")]
+    private GameObject[] RocksArray;
+    private Queue<int> RocksAvailableQueue;
+    private int maxRocks = 10;
+    [Header("variables")]
+    private int spawnwidth = 48;
     void Start()
     {
         timer = 0;
+        SetUpArrays();
     }
-
+    private void SetUpArrays()
+    {
+        RocksArray = new GameObject[maxRocks];
+        for (int i = 0; i < maxRocks; i++)
+        {
+            GameObject tempRock = Instantiate(rockPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+            RocksArray[i] = tempRock;
+            tempRock.SetActive(false);
+            RockScript rockScript = tempRock.GetComponent<RockScript>();
+            rockScript.RockSpawnerScript = this;
+            rockScript.index = i;
+        }
+        RocksAvailableQueue = new Queue<int>();
+        for (int i = 0; i < maxRocks; i++)
+        {
+            RocksAvailableQueue.Enqueue(i);
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -25,20 +49,27 @@ public class RockSpawnerScript : MonoBehaviour
         {
             return;
         }
-        if (timer < timeToSpawn)
+        if (timer < timeToSpawn || RocksAvailableQueue.Count == 0)
         {
             timer = timer + Time.fixedDeltaTime;
         }
         else
         {
-            float spawnX = Random.value*48;
+            float spawnX = Random.value * spawnwidth;
             SpawnRock(spawnX);
             timer = 0;
         }
     }
     void SpawnRock(float spawnX)
     {
-        Instantiate(rockPrefab,new Vector3(spawnX, transform.position.y,.5f), Quaternion.Euler(0,0,0));
+        int currentIndex = RocksAvailableQueue.Dequeue();
+        GameObject tempRock = RocksArray[currentIndex];
+        tempRock.SetActive(true);
+        tempRock.transform.position = new Vector3(spawnX, transform.position.y, .5f);
+    }
+    public void RockDestroyed(int index)
+    {
+        RocksAvailableQueue.Enqueue(index);
     }
     public void TriggerStage2()
     {
