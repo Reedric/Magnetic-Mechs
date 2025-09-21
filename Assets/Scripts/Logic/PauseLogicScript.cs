@@ -22,6 +22,10 @@ public class PauseLogicScript : MonoBehaviour
     {
         LogicScript.logicSingleton.SetControls();
     }
+    public void goBack()
+    {
+        LogicScript.logicSingleton.goBack();
+    }
     public void Quit()
     {
         LogicScript.logicSingleton.Quit();
