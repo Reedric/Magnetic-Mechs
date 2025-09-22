@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class LogicScript : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class LogicScript : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
     //public Text remainingFuelText;
+    public GameObject settingsScreen;
     public PlayerInput playerInput;
     [Header("variables")]
     private bool isPaused = false;
@@ -72,8 +74,21 @@ public class LogicScript : MonoBehaviour
     }
     public void SetControls()
     {
+        pauseScreen.SetActive(false);
+        settingsScreen.SetActive(true);
         Debug.Log("test");
     }
+    public void goBack()
+    {
+        settingsScreen.SetActive(false);
+        pauseScreen.SetActive(true);
+    }
+    /*
+    public void changeBind(GameObject button)
+    {
+
+    }
+    */
     public void Quit()
     {
         Application.Quit();

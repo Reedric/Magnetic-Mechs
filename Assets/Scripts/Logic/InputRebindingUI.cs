@@ -1,0 +1,82 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class InputRebindingUI : MonoBehaviour
+{
+    //buttons
+    [SerializeField] private Button moveUpButton;
+    [SerializeField] private Button moveDownButton;
+    [SerializeField] private Button moveLeftButton;
+    [SerializeField] private Button moveRightButton;
+    [SerializeField] private Button jumpButton;
+    [SerializeField] private Button fireButton;
+    [SerializeField] private Button launchMagnetButton;
+    [SerializeField] private Button attractButton;
+    [SerializeField] private Button repelButton;
+    [SerializeField] private Button menuButton;
+
+    //buttontexts
+    [SerializeField] private Text moveUpButtonText;
+    [SerializeField] private Text moveDownButtonText;
+    [SerializeField] private Text moveLeftButtonText;
+    [SerializeField] private Text moveRightButtonText;
+    [SerializeField] private Text jumpButtonText;
+    [SerializeField] private Text fireButtonText;
+    [SerializeField] private Text launchMagnetButtonText;
+    [SerializeField] private Text attractButtonText;
+    [SerializeField] private Text repelButtonText;
+    [SerializeField] private Text menuButtonText;
+    public void RebindMoveUp()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.MOVE_UP);
+    }
+    public void RebindMoveDown()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.MOVE_DOWN);
+    }
+    public void RebindMoveLeft()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.MOVE_LEFT);
+    }
+    public void rebindMoveRight()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.MOVE_RIGHT);
+    }
+    public void rebindJump()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.JUMP);
+    }
+    public void rebindFire()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.FIRE);
+    }
+    public void rebindLaunchMagnet()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.LAUNCH_MAGNET);
+    }
+    public void rebindAttract()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.ATTRACT);
+    }
+    public void rebindRepel()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.REPEL);
+    }
+    public void rebindMenuButton()
+    {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.MENU);
+    }
+    public void updateBinding()
+    {
+        moveUpButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.MOVE_UP);
+        moveDownButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.MOVE_DOWN);
+        moveLeftButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.MOVE_LEFT);
+        moveRightButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.MOVE_RIGHT);
+        jumpButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.JUMP);
+        fireButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.FIRE);
+        launchMagnetButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.LAUNCH_MAGNET);
+        attractButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.ATTRACT);
+        repelButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.REPEL);
+        menuButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.MENU);
+    }
+}
