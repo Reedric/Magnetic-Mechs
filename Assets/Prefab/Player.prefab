@@ -11712,12 +11712,13 @@ MonoBehaviour:
   maxYSpeedDelay: 0.55
   jumpForce: 7
   chargePressed: 0
-  isInvincible: 0
+  isCharging: 0
   chargeTime: 1
   chargeCooldown: 3
   chargeSpeed: 22
   chargeIndicatorImage: {fileID: 21300000, guid: f02cad2e10674cc4387c4e27f31fe385, type: 3}
   invincibilityIndicatorImage: {fileID: 2389193319765324094, guid: dcf45d5799125c340ad855da14d38156, type: 3}
+  chargeCooldownIndicatorImage: {fileID: -5519440890164013081, guid: adf5562544a1b4840b16b593770a002b, type: 3}
   chargeIndicator: {fileID: 8370532549694207143}
   jetpackTotalTime: 1.75
   jetpackCurrentTime: 0

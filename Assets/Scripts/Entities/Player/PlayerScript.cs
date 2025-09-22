@@ -74,7 +74,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Charging")]
     public bool chargePressed = false;
-    public bool isInvincible = false;
+    public bool isCharging = false;
     public float chargeTime = 1f;
     private float chargeTimer = 0f;
     public float chargeCooldown = 3f;
@@ -82,6 +82,7 @@ public class PlayerScript : MonoBehaviour
     public float chargeSpeed = 22f;
     public Sprite chargeIndicatorImage;
     public Sprite invincibilityIndicatorImage;
+    public Sprite chargeCooldownIndicatorImage;
     public SpriteRenderer chargeIndicator;
 
     [Header("Jetpack")]
@@ -158,7 +159,6 @@ public class PlayerScript : MonoBehaviour
         magnetSpawnerScript = MagnetSpawner.GetComponent<MagnetSpawnerScript>();
         groundLayer = LayerMask.GetMask("Ground","Plank Ground");
         jetpackCurrentTime = jetpackTotalTime;
-        chargeCooldown += chargeTime;
     }
 
     // Update is called once per frame
@@ -261,42 +261,6 @@ public class PlayerScript : MonoBehaviour
         jetpackBackwardsOn = !trulyOnGround && Mathf.Abs(direction) > 0;
         jetpackBackwards.GetComponent<JetpackScript>().setJetpack(jetpackBackwardsOn);
         //jumpPressed = false;
-
-        // check if we have hit charging speed
-        if (myRigidbody2D.linearVelocity.magnitude >= chargeSpeed && !healthScript.invincible)
-        {
-            if (!isInvincible)
-            {
-                chargeIndicator.sprite = chargeIndicatorImage;
-            }
-            
-            // start charging
-            if (chargePressed && chargeCooldownTimer <= 0f)
-            {
-                chargeTimer = chargeTime;
-                chargeCooldownTimer = chargeCooldown;
-            }
-        }
-        else
-        {
-            if (!isInvincible)
-            {
-                chargeIndicator.sprite = null;
-            }
-        }
-
-        if (chargeTimer > 0f && !isInvincible)
-        {
-            isInvincible = true;
-            chargeIndicator.sprite = invincibilityIndicatorImage;
-        }
-        else if (isInvincible)
-        {
-            isInvincible = false;
-        }
-
-        chargeTimer -= Time.deltaTime;
-        chargeCooldownTimer -= Time.deltaTime;
     }
     private void FixedUpdate()
     {
@@ -311,6 +275,7 @@ public class PlayerScript : MonoBehaviour
         handleVerticalMovement();
         handleMagneticRepulsion();
         handleRemainingFuelBar();
+        handleCharging();
     }
 
     void handleHorizontalMovement()
@@ -482,6 +447,53 @@ public class PlayerScript : MonoBehaviour
 
         }
     }
+
+    private void handleCharging()
+    {
+        // check if we have hit charging speed
+        if (myRigidbody2D.linearVelocity.magnitude >= chargeSpeed && !healthScript.invincible)
+        {
+            // if charging cooldown is over and we aren't charging
+            if (!isCharging && chargeCooldownTimer < 0f)
+            {
+                chargeIndicator.sprite = chargeIndicatorImage;
+
+                // start charging if we press the button
+                if (chargePressed)
+                {
+                    chargeTimer = chargeTime;
+
+                    isCharging = true;
+                    chargeIndicator.sprite = invincibilityIndicatorImage;
+                }
+            }
+        }
+        else
+        {
+            // too slow for charge speed and not charging
+            if (!isCharging)
+            {
+                chargeIndicator.sprite = null;
+            }
+        }
+        
+        // if we stop charging
+        if (chargeTimer <= 0f && isCharging)
+        {
+            isCharging = false;
+            chargeCooldownTimer = chargeCooldown;
+        }
+
+        // if cooldown is happening
+        if (chargeCooldownTimer > 0f)
+        {
+            chargeIndicator.sprite = chargeCooldownIndicatorImage;
+        }
+
+        chargeTimer -= Time.deltaTime;
+        chargeCooldownTimer -= Time.deltaTime;
+    }
+
     private void CreateDust()
     {
         changeDirectionDust.Play();
@@ -492,7 +504,7 @@ public class PlayerScript : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!isInvincible)
+        if (!isCharging)
         {
             if (collision.gameObject.layer == 7) // enemy
             {
@@ -524,23 +536,44 @@ public class PlayerScript : MonoBehaviour
                 DamagePlayer(1, relativePosition.normalized, knockbackVal);
             }
         }
+        else
+        {
+            if (collision.gameObject.layer == 7) // enemy
+            {
+                Vector2 relativePosition = transform.position - collision.transform.position;
+                float knockbackVal = 1;
+                if (collision.gameObject.tag == "RobotSpiderQueen")
+                {
+                    knockbackVal = 1.5f;
+                    if (relativePosition.y > Math.Abs(relativePosition.x) / .9f)
+                    {
+                        knockbackVal = 3.25f;
+                    }
+                }
+
+                StartCoroutine(handleKnockback(knockbackVal, relativePosition.normalized));
+            }
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 13) //enemy bullet
+        if (!isCharging)
         {
-            Vector2 relativePosition = transform.position - collision.transform.position;
-            DamagePlayer(1, relativePosition.normalized, .5f);
-        }
-        if (collision.gameObject.layer == 16) // rock
-        {
-            Vector2 relativePosition = transform.position - collision.transform.position;
-            DamagePlayer(1, relativePosition.normalized, 1f);
-        }
-        if (collision.gameObject.layer == 7) // enemy
-        {
-            Vector2 relativePosition = transform.position - collision.transform.position;
-            DamagePlayer(1, relativePosition.normalized, .5f);
+            if (collision.gameObject.layer == 13) //enemy bullet
+            {
+                Vector2 relativePosition = transform.position - collision.transform.position;
+                DamagePlayer(1, relativePosition.normalized, .5f);
+            }
+            if (collision.gameObject.layer == 16) // rock
+            {
+                Vector2 relativePosition = transform.position - collision.transform.position;
+                DamagePlayer(1, relativePosition.normalized, 1f);
+            }
+            if (collision.gameObject.layer == 7) // enemy
+            {
+                Vector2 relativePosition = transform.position - collision.transform.position;
+                DamagePlayer(1, relativePosition.normalized, .5f);
+            }
         }
     }
     public IEnumerator handleKnockback(float knockback, Vector2 knockbackDirection)
