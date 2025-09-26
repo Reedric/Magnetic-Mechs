@@ -27,7 +27,7 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "90ccfcf4-3bab-4a30-958d-53c396ad42d3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -72,6 +72,15 @@
                     "name": "Menu",
                     "type": "Button",
                     "id": "3f812d5c-626e-4959-a677-1e09d5cbb89e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Charge",
+                    "type": "Button",
+                    "id": "88a185ce-d4ce-4480-ae7d-55c511cc9a38",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -450,6 +459,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53ddbfeb-6733-4784-9df9-5f39e79dd8d0",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Charge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "973d8ab7-eba1-4043-bb14-df29fe52ac9d",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

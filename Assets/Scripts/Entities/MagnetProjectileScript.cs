@@ -17,15 +17,18 @@ public class MagnetProjectileScript : MonoBehaviour
     {
         if (collision.gameObject.layer == 6 || collision.gameObject.layer == 17)
         {
-            myRigidBody.linearVelocity = Vector3.zero;
-            GetComponent<CapsuleCollider2D>().enabled = false;
-        }
-        else if (collision.gameObject.layer == 19)
-        {
-            myRigidBody.linearVelocity = Vector3.zero;
-            GetComponent<CapsuleCollider2D>().enabled = false;
-            myRigidBody.bodyType = RigidbodyType2D.Kinematic;
-            gameObject.transform.SetParent(collision.transform);
+            if (collision.gameObject.CompareTag("MovingPlatform"))
+            {
+                myRigidBody.linearVelocity = Vector3.zero;
+                GetComponent<CapsuleCollider2D>().enabled = false;
+                myRigidBody.bodyType = RigidbodyType2D.Kinematic;
+                gameObject.transform.SetParent(collision.transform);
+            }
+            else
+            {
+                myRigidBody.linearVelocity = Vector3.zero;
+                GetComponent<CapsuleCollider2D>().enabled = false;
+            }
         }
     }
     public void DestroyThis()

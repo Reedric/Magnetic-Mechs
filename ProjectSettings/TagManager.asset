@@ -32,6 +32,7 @@ TagManager:
   - MultiSceneVariables
   - MagnetSpawner
   - MusicSource
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

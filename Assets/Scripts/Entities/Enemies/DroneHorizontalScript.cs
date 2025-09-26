@@ -34,8 +34,14 @@ public class DroneHorizontalScript : MonoBehaviour
     [Header("Variables")]
     public float MaxXDistance = 15f;
     public float MaxYDistance = 15f;
+
+    [Header("Player Information")]
+    public Transform playerTransform;
+
     private void Awake()
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) playerTransform = player.GetComponent<Transform>();
         myRigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -81,6 +87,11 @@ public class DroneHorizontalScript : MonoBehaviour
         if (collision.gameObject.layer == 18)
         {
             DespawnDrone();
+        }
+
+        if (collision.gameObject.layer == 3 && playerTransform.GetComponent<PlayerScript>().isCharging)
+        {
+            TakeDamage(1, collision.transform.up.normalized, .25f);
         }
     }
     void TakeDamage(float Damage, Vector2 knockbackDirection, float knockback)
