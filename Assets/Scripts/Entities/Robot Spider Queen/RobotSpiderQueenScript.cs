@@ -11,6 +11,7 @@ public class RobotSpiderQueenScript : MonoBehaviour
     public bool facingRight;
     [Header("Variables")]
     private float bulletDamage = 1f;
+    public float chargeDamage = 1f;
     public float distanceBeforeWalking = 2f;
     public bool bossActive;
     public LayerMask groundLayer;
@@ -141,6 +142,13 @@ public class RobotSpiderQueenScript : MonoBehaviour
         if (collision.gameObject.layer == 8)
         {
             damageBoss(bulletDamage);
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 3 && playerTransform.GetComponent<PlayerScript>().isCharging)
+        {
+            damageBoss(chargeDamage);
         }
     }
     public void damageBoss(float damage)
