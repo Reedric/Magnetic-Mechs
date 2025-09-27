@@ -635,6 +635,13 @@ public class PlayerScript : MonoBehaviour
         playerAlive = false;
         animator.SetBool("hasDied", true);
         myRigidbody2D.linearVelocity = new Vector3(0, 0, 0);
+        myRigidbody2D.gravityScale = 1.5f;
+        chargeIndicator.sprite = null;
+        if (magnetAudio != null && magnetAudio.isPlaying) magnetAudio.Stop();
+        if (jetpackAudio != null && jetpackAudio.isPlaying) jetpackAudio.Stop();
+        jetpackLowerLeft.GetComponent<JetpackScript>().setJetpack(false);
+        jetpackLowerRight.GetComponent<JetpackScript>().setJetpack(false);
+        jetpackBackwards.GetComponent<JetpackScript>().setJetpack(false);
         StartCoroutine(HandleDeath());
     }
     IEnumerator HandleDeath()
