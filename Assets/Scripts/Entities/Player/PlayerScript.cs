@@ -182,8 +182,11 @@ public class PlayerScript : MonoBehaviour
         }
         onGround = (Physics2D.Raycast(transform.position - distanceToLeg, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position + distanceToLeg, Vector2.down, groundLength, groundLayer));
         trulyOnGround = onGround && !(Physics2D.Raycast(transform.position - distanceToLeg, Vector2.down, legLength, groundLayer) || Physics2D.Raycast(transform.position + distanceToLeg, Vector2.down, legLength, groundLayer));
-        animator.SetBool("OnGround", trulyOnGround);
-        animator.SetBool("LandingFast", onGround && myRigidbody2D.linearVelocity.y < -5);
+        if (playerAlive)
+        {
+            animator.SetBool("OnGround", trulyOnGround);
+            animator.SetBool("LandingFast", onGround && myRigidbody2D.linearVelocity.y < -5);
+        }
         //Method One Recover on Ground
         if (trulyOnGround)
         {
