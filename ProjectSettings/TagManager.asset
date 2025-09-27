@@ -33,6 +33,7 @@ TagManager:
   - MagnetSpawner
   - MusicSource
   - MovingPlatform
+  - NonStickPlatform
   layers:
   - Default
   - TransparentFX
