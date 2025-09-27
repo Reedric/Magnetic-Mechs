@@ -69,7 +69,7 @@ public class DroneHorizontalScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        animator.SetBool("hasDied", false);
+        //animator.SetBool("hasDied", false);
     }
     public void Flip()
     {

@@ -250,11 +250,7 @@ public class PlayerScript : MonoBehaviour
         }
         if (launchMagnet)
         {
-            GameObject magnet = magnetSpawnerScript.Launch();
-            if (magnet!=null)
-            {
-                setMagnet(magnet);
-            }
+            magnetSpawnerScript.Launch();
         }
         jetpackLowerLeft.GetComponent<JetpackScript>().setJetpack(jetpackOn);
         jetpackLowerRight.GetComponent<JetpackScript>().setJetpack(jetpackOn);
@@ -295,7 +291,7 @@ public class PlayerScript : MonoBehaviour
         float currentMaxSpeed = maxSpeed;
         if (repelOn ^ attractOn)
         {
-            if (myMagnet != null)
+            if (magnetSpawnerScript != null && magnetSpawnerScript.magnetActive)
             {
                 Vector2 magnetRelativePosition = transform.position - myMagnet.transform.position;
                 float magnetDistance = magnetRelativePosition.magnitude;
@@ -321,7 +317,7 @@ public class PlayerScript : MonoBehaviour
         float currentMaxSpeed = maxYSpeed;
         if (repelOn ^ attractOn)
         {
-            if (myMagnet != null)
+            if (myMagnet != null && magnetSpawnerScript.magnetActive)
             {
                 Vector2 magnetRelativePosition = transform.position - myMagnet.transform.position;
                 float magnetDistance = magnetRelativePosition.magnitude;
@@ -612,7 +608,7 @@ public class PlayerScript : MonoBehaviour
     }
     private void handleMagneticRepulsion()
     {
-        if (myMagnet == null || !(repelOn ^ attractOn)) return;
+        if (myMagnet == null || !(repelOn ^ attractOn) || !magnetSpawnerScript.magnetActive) return;
         Vector2 magnetRelativePosition = transform.position - myMagnet.transform.position;
         float magnetDistance = magnetRelativePosition.magnitude;
         if (magnetDistance < 1.1f)
@@ -648,13 +644,8 @@ public class PlayerScript : MonoBehaviour
     }
     public void setMagnet(GameObject magnet)
     {
-        GameObject oldMagnet = myMagnet;
         myMagnet = magnet;
         magnetVisualEffectScript.Magnet = magnet;
-        if (oldMagnet != null)
-        {
-            oldMagnet.GetComponent<MagnetProjectileScript>().DestroyThis();
-        }
     }
     public void Move(InputAction.CallbackContext context)
     {
