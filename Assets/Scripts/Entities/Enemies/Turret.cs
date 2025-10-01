@@ -20,6 +20,8 @@ public class Turret : BulletSpawnerParent
     [SerializeField] private float timeBetweenShots;
     private float timer;
     [SerializeField] private float missileForce;
+    [SerializeField] public bool canStandOnMissiles;
+    [SerializeField] public bool canStickMagnets;
 
     void Start()
     {
