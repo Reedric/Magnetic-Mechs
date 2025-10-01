@@ -12,6 +12,7 @@ public class BulletScript : MonoBehaviour
     public GameObject parent;
     public int index;
     public BulletSpawnerParent bulletSpawnerParent;
+    public float lifetime = 3;
     //private GameObject explosionEffect;
     //private Vector3 explosionOffset = new Vector3(0, .05f, 0);
 
@@ -36,17 +37,8 @@ public class BulletScript : MonoBehaviour
     }
     public void SetDeathTime()
     {
-        isPlatformMissile = gameObject.GetComponentInChildren<MissilePlatformManager>() != null; // update this again after starting
-
         //sets time to kill the bullet if it hasn't hit anything yet
-        if (isPlatformMissile)
-        {
-            deathTime = Time.time + 10;
-        }
-        else
-        {
-            deathTime = Time.time + 3;
-        }
+        deathTime = Time.time + lifetime;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
