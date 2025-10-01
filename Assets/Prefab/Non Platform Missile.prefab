@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4532694132482238415}
   - component: {fileID: 1905605977442425032}
   m_Layer: 13
-  m_Name: Turret Bullet
+  m_Name: Non Platform Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

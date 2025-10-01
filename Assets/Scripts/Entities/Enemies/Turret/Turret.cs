@@ -8,8 +8,8 @@ public class Turret : BulletSpawnerParent
 
     [Header("Object Components")]
 
-    [SerializeField] private GameObject turretBase;
     [SerializeField] private GameObject turretHolder;
+    [SerializeField] private GameObject turretChamber;
 
     [Header("Enemy Specifications")]
 
@@ -30,14 +30,14 @@ public class Turret : BulletSpawnerParent
     public void SetUpTurret()
     {
         // Set the base and shooting angles based on specified values
-        turretBase.transform.eulerAngles = new Vector3(0f, 0f, baseAngle);
+        turretHolder.transform.eulerAngles = new Vector3(0f, 0f, baseAngle);
         transform.eulerAngles = new Vector3(0f, 0f, shootingAngle);
 
         // increase bullet force to account for large missile mass for letting players walk on bullet
         bulletForce = missileForce * 10000;
         timer = timeBetweenShots;
         audioBox = gameObject.GetComponent<AudioSource>();
-        parentObject = turretHolder;
+        parentObject = turretChamber;
         SetUpGameObjects();
     }
 

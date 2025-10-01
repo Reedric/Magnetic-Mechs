@@ -36,8 +36,17 @@ public class BulletScript : MonoBehaviour
     }
     public void SetDeathTime()
     {
+        isPlatformMissile = gameObject.GetComponentInChildren<MissilePlatformManager>() != null; // update this again after starting
+
         //sets time to kill the bullet if it hasn't hit anything yet
-        deathTime = Time.time + 3;
+        if (isPlatformMissile)
+        {
+            deathTime = Time.time + 10;
+        }
+        else
+        {
+            deathTime = Time.time + 3;
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
