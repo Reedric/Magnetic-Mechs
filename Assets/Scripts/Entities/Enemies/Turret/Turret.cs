@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Turret : BulletSpawnerParent
 {
     // Store this script in the turret chamber
+    // Inherits from the bullet spawner parent script, similar to BulletSpawnerScript
 
     [Header("Object Components")]
 
@@ -14,20 +16,24 @@ public class Turret : BulletSpawnerParent
     [Tooltip("Angle of turret's base")]
     [SerializeField] private float baseAngle;
 
-    [Tooltip("Angle of turret's chamber (and bullet angle)")]
-    [SerializeField] private float shootingAngle;
+    protected float shootingAngle = 0f;
 
     [SerializeField] private float timeBetweenShots;
     private float timer;
     [SerializeField] private float missileForce;
-    [SerializeField] public bool canStandOnMissiles;
-    [SerializeField] public bool canStickMagnets;
 
-    void Start()
+    private void Start()
     {
+        SetUpTurret();
+    }
+
+    public void SetUpTurret()
+    {
+        // Set the base and shooting angles based on specified values
         turretBase.transform.eulerAngles = new Vector3(0f, 0f, baseAngle);
         transform.eulerAngles = new Vector3(0f, 0f, shootingAngle);
 
+        // increase bullet force to account for large missile mass for letting players walk on bullet
         bulletForce = missileForce * 10000;
         timer = timeBetweenShots;
         audioBox = gameObject.GetComponent<AudioSource>();

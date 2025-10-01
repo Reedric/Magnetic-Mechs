@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class BulletScript : MonoBehaviour
@@ -13,6 +14,13 @@ public class BulletScript : MonoBehaviour
     public BulletSpawnerParent bulletSpawnerParent;
     //private GameObject explosionEffect;
     //private Vector3 explosionOffset = new Vector3(0, .05f, 0);
+
+    private bool isMissile;
+
+    void Start()
+    {
+        isMissile = gameObject.GetComponentInChildren<MissilePlatformManager>() != null;
+    }
 
     // Update is called once per frame
     void Update()
@@ -37,7 +45,17 @@ public class BulletScript : MonoBehaviour
         //Destroy(effect, effect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
         if(parent!= null && collision.gameObject != parent && collision.gameObject.layer != 8 && collision.gameObject.layer != 13 && collision.gameObject.layer != 14 && collision.gameObject.layer != 5)
         {
-            KillBullet();
+            if (isMissile)
+            {
+                if (collision.gameObject.tag != "Magnet")
+                {
+                    KillBullet();
+                }
+            }
+            else
+            {
+                KillBullet();
+            }
         }
     }
     public void KillBullet()
@@ -46,6 +64,19 @@ public class BulletScript : MonoBehaviour
         {
             bulletSpawnerParent.BulletKilled(index);
         }
+
+        // if this bullet is a turret missile, reset any magnets attached to platforms
+        if (isMissile)
+        {
+            foreach (Transform child in gameObject.GetComponentInChildren<MissilePlatformManager>().transform)
+            {
+                if (child.GetComponent<MagnetProjectileScript>() != null)
+                {
+                    child.GetComponent<MagnetProjectileScript>().DestroyThis();
+                }
+            }
+        }
+
         gameObject.SetActive(false);
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4532694132482238415}
   - component: {fileID: 1905605977442425032}
   m_Layer: 13
-  m_Name: Turret Missile
+  m_Name: Platform Turret Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,8 +153,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.9, y: 0.35}
+  m_Offset: {x: 0.325, y: 0}
+  m_Size: {x: 0.4, y: 0.4}
   m_Direction: 1
 --- !u!95 &4532694132482238415
 Animator:
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 2398461726702675085}
   m_Layer: 6
   m_Name: Missile Platform
-  m_TagString: Untagged
+  m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -242,7 +242,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1048567
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -270,7 +270,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7, y: 0.4}
+  m_Size: {x: 0.65, y: 0.4}
   m_EdgeRadius: 0
 --- !u!114 &2398461726702675085
 MonoBehaviour:
