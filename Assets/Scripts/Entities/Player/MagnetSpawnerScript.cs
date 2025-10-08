@@ -10,6 +10,8 @@ public class MagnetSpawnerScript : MonoBehaviour
     public float reloadTime = 1f;
     private float timer;
     private bool magnetDisabled = false;
+    public GameObject myMagnet;
+    public bool magnetActive;
     [Header("Components")]
     public GameObject magnetPrefab;
     public GameObject magnetSpawnpoint;
@@ -21,26 +23,40 @@ public class MagnetSpawnerScript : MonoBehaviour
         timer = reloadTime;
         //audioBox = gameObject.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
+        initializeMagnet();
+        player.GetComponent<PlayerScript>().setMagnet(myMagnet);
+        magnetActive = false;
+    }
+    private void initializeMagnet()
+    {
+        myMagnet = Instantiate(magnetPrefab);
+        myMagnet.GetComponent<MagnetProjectileScript>().myMagnetSpawnerScript = this;
+        myMagnet.SetActive(false);
     }
     private void FixedUpdate()
     {
         timer = timer + Time.fixedDeltaTime;
     }
-    public GameObject Launch()
+    public void Launch()
     {
         if (player == null)
         {
             Debug.Log("The player could not be found");
-            return null;
+            return;
         }
-        if (timer < reloadTime || magnetDisabled) return null;
-        GameObject magnet = Instantiate(magnetPrefab, magnetSpawnpoint.transform.position + new Vector3(0,0,-1), transform.rotation);
-        magnet.transform.Rotate(new Vector3(0, 0, 90));
-        Rigidbody2D magnetRB = magnet.GetComponent<Rigidbody2D>();
+        if (timer < reloadTime || magnetDisabled) return;
+        //GameObject magnet = Instantiate(magnetPrefab, magnetSpawnpoint.transform.position + new Vector3(0,0,-1), transform.rotation);
+        magnetActive = true;
+        myMagnet.GetComponent<MagnetProjectileScript>().Reset();
+        myMagnet.transform.position = magnetSpawnpoint.transform.position + new Vector3(0, 0, -1);
+        myMagnet.transform.rotation = transform.rotation;
+        myMagnet.transform.Rotate(new Vector3(0, 0, 90));
+        myMagnet.SetActive(true);
+        Rigidbody2D magnetRB = myMagnet.GetComponent<Rigidbody2D>();
         magnetRB.AddForce(transform.right * LaunchForce, ForceMode2D.Impulse);
         //audioBox.Play();
         timer = 0;
-        return magnet;
+
     }
     //Events
     public void DisableShooting()
