@@ -6,12 +6,13 @@ public class RockSpawnerScript : MonoBehaviour
 {
     //script for spawning rocks during the robot spider queens second phase
     [Header("Components")]
-    public GameObject rockPrefab;
+    public GameObject rockSpawnerPrefab;
     [Header("Manage Spawn")]
     public float timeToSpawn = 3;
+    //public float despawnHeight = 0;
     private float timer;
     [Header("Stages")]
-    private bool notStarted = true;
+    private bool notStarted = false;
     // Start is called before the first frame update
     [Header("Manage Queue")]
     private GameObject[] RocksArray;
