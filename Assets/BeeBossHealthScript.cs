@@ -9,19 +9,23 @@ public class BeeBossHealthScript : MonoBehaviour
     [Header("Components")]
     //public GameObject Player;
     public BeeBossScript beeBossScript;
+    public BeeBossParentScript beeBossParentScript;
     public Image remainingHealth;
     public LogicScript logic;
     [Header("Health")]
     public float currentHealth;
-    private float maxHealth = 2;
+    private float maxHealth = 30;
     public float maxPossibleHealth = 100;
     [Header("Variables")]
     private bool inStage2 = false;
     private void Awake()
     {
-        //GameObject beeBoss = GameObject.FindGameObjectWithTag("BeeBoss");
-        //if (beeBoss != null) beeBossScript = beeBoss.GetComponent<BeeBossScript>();
-        //else Debug.Log("Bee Boss could not be found");
+        GameObject beeBoss = GameObject.FindGameObjectWithTag("BeeBoss");
+        if (beeBoss != null) beeBossScript = beeBoss.GetComponent<BeeBossScript>();
+        else Debug.Log("Bee Boss could not be found");
+        GameObject beeBossParent = GameObject.FindGameObjectWithTag("BeeBossParent");
+        if (beeBossParent != null) beeBossParentScript = beeBossParent.GetComponent<BeeBossParentScript>();
+        else Debug.Log("Bee Boss Parent could not be found");
         currentHealth = maxHealth;
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
         //invincible = false;
@@ -43,9 +47,9 @@ public class BeeBossHealthScript : MonoBehaviour
             currentHealth = 0;
             HandleBossDeath();
         }
-        else if (!inStage2 && currentHealth <= maxHealth / 2)
+        else if (!inStage2 && currentHealth <= maxHealth * 2 / 3)
         {
-            //robotSpiderQueenScript.TriggerAllStage2();
+            beeBossParentScript.ActivateStage2();
             inStage2 = true;
         }
     }
@@ -56,7 +60,7 @@ public class BeeBossHealthScript : MonoBehaviour
     public void HandleBossDeath()
     {
         if (beeBossScript == null) return;
-        //logic.StartStage4Delay();
+        logic.StartStage4Delay();
         beeBossScript.KillBoss();
     }
 }

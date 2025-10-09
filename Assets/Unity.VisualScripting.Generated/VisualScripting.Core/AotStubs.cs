@@ -632,9 +632,15 @@ namespace Unity.VisualScripting.Generated.Aot
 	// Camera_Experiment.op_Implicit
 	// Camera_Experiment.op_Equality
 	// Camera_Experiment.op_Inequality
+	// CeilingLaserScript.op_Implicit
+	// CeilingLaserScript.op_Equality
+	// CeilingLaserScript.op_Inequality
 	// FirewallScript.op_Implicit
 	// FirewallScript.op_Equality
 	// FirewallScript.op_Inequality
+	// IndividualRockSpawnerScript.op_Implicit
+	// IndividualRockSpawnerScript.op_Equality
+	// IndividualRockSpawnerScript.op_Inequality
 	// HealthBarController.op_Implicit
 	// HealthBarController.op_Equality
 	// HealthBarController.op_Inequality
@@ -8454,6 +8460,41 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
+		// CeilingLaserScript.op_Implicit
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void CeilingLaserScript_op_Implicit()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			bool conversion = ((bool)(arg0));
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// CeilingLaserScript.op_Equality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void CeilingLaserScript_op_Equality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 == arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// CeilingLaserScript.op_Inequality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void CeilingLaserScript_op_Inequality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 != arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
 		// FirewallScript.op_Implicit
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void FirewallScript_op_Implicit()
@@ -8480,6 +8521,41 @@ namespace Unity.VisualScripting.Generated.Aot
 		// FirewallScript.op_Inequality
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void FirewallScript_op_Inequality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 != arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// IndividualRockSpawnerScript.op_Implicit
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void IndividualRockSpawnerScript_op_Implicit()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			bool conversion = ((bool)(arg0));
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// IndividualRockSpawnerScript.op_Equality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void IndividualRockSpawnerScript_op_Equality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 == arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// IndividualRockSpawnerScript.op_Inequality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void IndividualRockSpawnerScript_op_Inequality()
 		{
 			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
 			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
