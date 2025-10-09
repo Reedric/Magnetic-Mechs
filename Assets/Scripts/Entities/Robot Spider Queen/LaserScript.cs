@@ -206,8 +206,8 @@ public class LaserScript : MonoBehaviour
         tempExplosion.SetActive(true);
         tempExplosion.transform.position = endPoint;
         tempExplosion.GetComponent<ExplosionScript>().restartExplosion();
-        GameObject effect = Instantiate(explosionEffect, endPoint, Quaternion.identity);
-        Destroy(effect, effect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+        //GameObject effect = Instantiate(explosionEffect, endPoint, Quaternion.identity);
+        //Destroy(effect, effect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
     }
     public void ExplosionKilled(int index)
     {
