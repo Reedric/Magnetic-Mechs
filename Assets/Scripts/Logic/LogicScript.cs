@@ -46,6 +46,18 @@ public class LogicScript : MonoBehaviour
     {
         SceneManager.LoadScene("Level 4");
     }
+    public void StartLevelFive()
+    {
+        SceneManager.LoadScene("Level 5");
+    }
+    public void StartLevelSix()
+    {
+        SceneManager.LoadScene("Level 6");
+    }
+    public void StartLevelSeven()
+    {
+        SceneManager.LoadScene("Level 7");
+    }
     public void Menu()
     {
         isPaused = false;
@@ -63,6 +75,7 @@ public class LogicScript : MonoBehaviour
             Time.timeScale = 1.0f;
             playerInput.SwitchCurrentActionMap("Player");
             pauseScreen.SetActive(false);
+            settingsScreen.SetActive(false);
         }
         else
         {
