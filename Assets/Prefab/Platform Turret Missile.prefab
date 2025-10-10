@@ -170,7 +170,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   index: 0
   bulletSpawnerParent: {fileID: 0}
-  lifetime: 10
+  lifetime: 200
 --- !u!1 &7542911776409423388
 GameObject:
   m_ObjectHideFlags: 0

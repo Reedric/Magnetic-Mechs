@@ -6,9 +6,10 @@ public class RockSpawnerScript : MonoBehaviour
 {
     //script for spawning rocks during the robot spider queens second phase
     [Header("Components")]
-    public GameObject rockPrefab;
+    public GameObject rockSpawnerPrefab;
     [Header("Manage Spawn")]
     public float timeToSpawn = 3;
+    //public float despawnHeight = 0;
     private float timer;
     [Header("Stages")]
     private bool notStarted = true;
@@ -16,9 +17,11 @@ public class RockSpawnerScript : MonoBehaviour
     [Header("Manage Queue")]
     private GameObject[] RocksArray;
     private Queue<int> RocksAvailableQueue;
-    private int maxRocks = 10;
+    private int maxRocks = 2;
     [Header("variables")]
-    private int spawnwidth = 48;
+    public int spawnwidth = 48;
+    public float minHeight = -3f;
+    public float speed = 3f;
     void Start()
     {
         timer = 0;
@@ -29,12 +32,16 @@ public class RockSpawnerScript : MonoBehaviour
         RocksArray = new GameObject[maxRocks];
         for (int i = 0; i < maxRocks; i++)
         {
-            GameObject tempRock = Instantiate(rockPrefab, transform.position, Quaternion.Euler(0, 0, 0));
-            RocksArray[i] = tempRock;
-            tempRock.SetActive(false);
+            GameObject tempRockSpawner = Instantiate(rockSpawnerPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+            RocksArray[i] = tempRockSpawner;
+            tempRockSpawner.transform.parent = transform;
+            tempRockSpawner.SetActive(false);
+            GameObject tempRock = tempRockSpawner.GetComponent<IndividualRockSpawnerScript>().returnRock();
             RockScript rockScript = tempRock.GetComponent<RockScript>();
             rockScript.RockSpawnerScript = this;
             rockScript.index = i;
+            rockScript.minHeight = minHeight;
+            rockScript.transform.parent = transform;
         }
         RocksAvailableQueue = new Queue<int>();
         for (int i = 0; i < maxRocks; i++)
@@ -56,19 +63,21 @@ public class RockSpawnerScript : MonoBehaviour
         else
         {
             float spawnX = Random.value * spawnwidth;
-            SpawnRock(spawnX);
+            SpawnRock(transform.position.x + spawnX - spawnwidth/2);
             timer = 0;
         }
     }
     void SpawnRock(float spawnX)
     {
         int currentIndex = RocksAvailableQueue.Dequeue();
-        GameObject tempRock = RocksArray[currentIndex];
-        tempRock.SetActive(true);
-        tempRock.transform.position = new Vector3(spawnX, transform.position.y, .5f);
+        GameObject tempRockSpawner = RocksArray[currentIndex];
+        tempRockSpawner.SetActive(true);
+        tempRockSpawner.transform.position = new Vector3(spawnX, transform.position.y, .5f);
+        tempRockSpawner.GetComponent<IndividualRockSpawnerScript>().startSpawningRock();
     }
     public void RockDestroyed(int index)
     {
+        RocksArray[index].SetActive(false);
         RocksAvailableQueue.Enqueue(index);
     }
     public void TriggerStage2()

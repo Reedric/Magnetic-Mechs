@@ -59,7 +59,19 @@ public class LogicScript : MonoBehaviour
     {
         SceneManager.LoadScene("Level 4");
     }
-    public void StartLevelSelect()
+    public void StartLevelFive()
+    {
+        SceneManager.LoadScene("Level 5");
+    }
+    public void StartLevelSix()
+    {
+        SceneManager.LoadScene("Level 6");
+    }
+    public void StartLevelSeven()
+    {
+        SceneManager.LoadScene("Level 7");
+    }
+    public void Menu()
     {
         menuState = GameMenuState.PLAYING;
         Time.timeScale = 1.0f;

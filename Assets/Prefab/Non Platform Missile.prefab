@@ -192,4 +192,4 @@ MonoBehaviour:
   parent: {fileID: 0}
   index: 0
   bulletSpawnerParent: {fileID: 0}
-  lifetime: 3
+  lifetime: 60
