@@ -63,6 +63,7 @@ public class LogicScript : MonoBehaviour
             Time.timeScale = 1.0f;
             playerInput.SwitchCurrentActionMap("Player");
             pauseScreen.SetActive(false);
+            settingsScreen.SetActive(false);
         }
         else
         {
