@@ -57,7 +57,7 @@ public class FlyingEnemy : MonoBehaviour
                 verticalDirection = -1;
                 switchCounter = switchTime;
             }
-            myRigidBody2D.linearVelocity = new Vector3(0f, verticalSpeed * verticalDirection, 0f);
+            myRigidBody2D.linearVelocity = new Vector3(4f, verticalSpeed * verticalDirection, 0f);
         }
 
         if (switchCounter <= 0)
