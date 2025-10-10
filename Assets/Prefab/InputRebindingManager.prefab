@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 972759165d48f05429486a281a138c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActions: {fileID: -944628639613478452, guid: d8c372eb36b7b9043bb391dbe00ac25a, type: 3}
+  playerInput: {fileID: 0}
   moveInputActionString: Move
   jumpInputActionString: Jump
   fireInputActionString: Fire
   launchMagnetInputActionString: LaunchMagnet
   attractInputActionString: Attract
   repelInputActionString: Repel
-  menuInputActionString: Menu
+  chargeInputActionString: Charge

@@ -9,6 +9,7 @@ public class InputRebinding : MonoBehaviour {
     
     public static InputRebinding Instance { get; private set; }
 
+    public event EventHandler OnInputRebindingStarted;
     public event EventHandler OnInputRebindingCompleted;
 
     [SerializeField] private PlayerInput playerInput;
@@ -93,6 +94,7 @@ public class InputRebinding : MonoBehaviour {
                 break;
         }
 
+        OnInputRebindingStarted?.Invoke(this, EventArgs.Empty);
         playerInput.actions.FindActionMap("Player").Disable();
         action.Disable();
         action.PerformInteractiveRebinding(bindingIndex).OnComplete(callback => {
@@ -105,6 +107,7 @@ public class InputRebinding : MonoBehaviour {
     }
 
     public void ResetAllBindings() {
+        OnInputRebindingStarted?.Invoke(this, EventArgs.Empty);
         InputActionMap playerActionMap = playerInput.actions.FindActionMap("Player");
         playerActionMap.Disable();
         playerActionMap.RemoveAllBindingOverrides();

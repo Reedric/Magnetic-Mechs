@@ -71,7 +71,7 @@ public class LogicScript : MonoBehaviour
     {
         SceneManager.LoadScene("Level 7");
     }
-    public void Menu()
+    public void StartLevelSelect()
     {
         menuState = GameMenuState.PLAYING;
         Time.timeScale = 1.0f;

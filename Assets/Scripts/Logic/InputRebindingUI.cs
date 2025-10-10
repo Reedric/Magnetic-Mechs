@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class InputRebindingUI : MonoBehaviour {
 
+    [SerializeField] private GameObject rebindingOverlay;
+
     [Header("Buttons")]
     [SerializeField] private Button moveUpButton;
     [SerializeField] private Button moveDownButton;
@@ -29,15 +31,23 @@ public class InputRebindingUI : MonoBehaviour {
 
     private void Start() {
         InputRebinding.Instance.OnInputRebindingCompleted += InputRebinding_OnInputRebindingCompleted;
+        InputRebinding.Instance.OnInputRebindingStarted += InputRebinding_OnInputRebindingStarted;
+        //rebindingOverlay.SetActive(false);
         UpdateBindingTexts();
     }
 
     private void OnDestroy() {
         InputRebinding.Instance.OnInputRebindingCompleted -= InputRebinding_OnInputRebindingCompleted;
+        InputRebinding.Instance.OnInputRebindingStarted -= InputRebinding_OnInputRebindingStarted;
+    }
+
+    private void InputRebinding_OnInputRebindingStarted(object sender, System.EventArgs e) {
+        //rebindingOverlay.SetActive(true);
     }
 
     private void InputRebinding_OnInputRebindingCompleted(object sender, System.EventArgs e) {
         UpdateBindingTexts();
+        //rebindingOverlay.SetActive(false);
     }
 
     public void RebindMoveUp() {
