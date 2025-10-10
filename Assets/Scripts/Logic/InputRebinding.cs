@@ -5,22 +5,22 @@ using UnityEngine.InputSystem;
 
 public class InputRebinding : MonoBehaviour {
 
+    private const string PLAYER_PREFS_BINDING_OVERRIDES = "Binding Overrides";
+    
     public static InputRebinding Instance { get; private set; }
 
-    public event EventHandler OnInputRebinding;
+    public event EventHandler OnInputRebindingCompleted;
 
-    [SerializeField] InputActionAsset inputActions;
+    [SerializeField] private PlayerInput playerInput;
 
     [Header("Input Actions")]
-    [SerializeField] string moveInputActionString;
-    [SerializeField] string jumpInputActionString;
-    [SerializeField] string fireInputActionString;
-    [SerializeField] string launchMagnetInputActionString;
-    [SerializeField] string attractInputActionString;
-    [SerializeField] string repelInputActionString;
-    [SerializeField] string menuInputActionString;
-
-    private const string PLAYER_PREFS_BINDING_OVERRIDES = "Binding Overrides";
+    [SerializeField] string moveInputActionString = "Move";
+    [SerializeField] string jumpInputActionString = "Jump";
+    [SerializeField] string fireInputActionString = "Fire";
+    [SerializeField] string launchMagnetInputActionString = "LaunchMagnet";
+    [SerializeField] string attractInputActionString = "Attract";
+    [SerializeField] string repelInputActionString = "Repel";
+    [SerializeField] string chargeInputActionString = "Charge";
 
     public enum Binding {
         MOVE_UP,
@@ -32,7 +32,7 @@ public class InputRebinding : MonoBehaviour {
         LAUNCH_MAGNET,
         ATTRACT,
         REPEL,
-        MENU
+        CHARGE
     }
 
     private void Awake() {
@@ -44,95 +44,99 @@ public class InputRebinding : MonoBehaviour {
     }
 
     private void Start() {
+        playerInput.actions.Enable();
+
         if (PlayerPrefs.HasKey(PLAYER_PREFS_BINDING_OVERRIDES)) {
             string overridesJson = PlayerPrefs.GetString(PLAYER_PREFS_BINDING_OVERRIDES);
-            inputActions.LoadBindingOverridesFromJson(overridesJson);
+            playerInput.actions.LoadBindingOverridesFromJson(overridesJson);
         }
     }
 
     public void RebindBinding(Binding binding) {
-        inputActions.FindActionMap("Player").Disable();
-
         InputAction action;
         int bindingIndex = 0;
         switch (binding) {
             default:
             case Binding.MOVE_UP:
-                action = inputActions.FindAction(moveInputActionString);
+                action = playerInput.actions.FindAction(moveInputActionString);
                 bindingIndex = 1;
                 break;
             case Binding.MOVE_LEFT:
-                action = inputActions.FindAction(moveInputActionString);
+                action = playerInput.actions.FindAction(moveInputActionString);
                 bindingIndex = 2;
                 break;
             case Binding.MOVE_DOWN:
-                action = inputActions.FindAction(moveInputActionString);
+                action = playerInput.actions.FindAction(moveInputActionString);
                 bindingIndex = 3;
                 break;
             case Binding.MOVE_RIGHT:
-                action = inputActions.FindAction(moveInputActionString);
+                action = playerInput.actions.FindAction(moveInputActionString);
                 bindingIndex = 4;
                 break;
             case Binding.JUMP:
-                action = inputActions.FindAction(jumpInputActionString);
+                action = playerInput.actions.FindAction(jumpInputActionString);
                 break;
             case Binding.FIRE:
-                action = inputActions.FindAction(fireInputActionString);
+                action = playerInput.actions.FindAction(fireInputActionString);
                 break;
             case Binding.LAUNCH_MAGNET:
-                action = inputActions.FindAction(launchMagnetInputActionString);
+                action = playerInput.actions.FindAction(launchMagnetInputActionString);
                 break;
             case Binding.ATTRACT:
-                action = inputActions.FindAction(attractInputActionString);
+                action = playerInput.actions.FindAction(attractInputActionString);
                 break;
             case Binding.REPEL:
-                action = inputActions.FindAction(repelInputActionString);
+                action = playerInput.actions.FindAction(repelInputActionString);
                 break;
-            case Binding.MENU:
-                action = inputActions.FindAction(menuInputActionString);
+            case Binding.CHARGE:
+                action = playerInput.actions.FindAction(chargeInputActionString);
                 break;
         }
 
+        playerInput.actions.FindActionMap("Player").Disable();
+        action.Disable();
         action.PerformInteractiveRebinding(bindingIndex).OnComplete(callback => {
-            inputActions.FindActionMap("Player").Enable();
-            PlayerPrefs.SetString(PLAYER_PREFS_BINDING_OVERRIDES, inputActions.SaveBindingOverridesAsJson());
-            OnInputRebinding?.Invoke(this, EventArgs.Empty);
+            callback.Dispose();
+            playerInput.actions.FindActionMap("Player").Enable();
+            action.Enable();
+            PlayerPrefs.SetString(PLAYER_PREFS_BINDING_OVERRIDES, playerInput.actions.SaveBindingOverridesAsJson());
+            OnInputRebindingCompleted?.Invoke(this, EventArgs.Empty);
         }).Start();
     }
 
     public void ResetAllBindings() {
-        InputActionMap playerActionMap = inputActions.FindActionMap("Player");
+        InputActionMap playerActionMap = playerInput.actions.FindActionMap("Player");
         playerActionMap.Disable();
-        inputActions.RemoveAllBindingOverrides();
+        playerActionMap.RemoveAllBindingOverrides();
         playerActionMap.Enable();
 
-        PlayerPrefs.SetString(PLAYER_PREFS_BINDING_OVERRIDES, inputActions.SaveBindingOverridesAsJson());
-        OnInputRebinding?.Invoke(this, EventArgs.Empty);
+        PlayerPrefs.SetString(PLAYER_PREFS_BINDING_OVERRIDES, playerInput.actions.SaveBindingOverridesAsJson());
+        OnInputRebindingCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     public string GetBinding(Binding binding) {
         switch (binding) {
             default:
             case Binding.MOVE_UP:
-                return inputActions.FindAction(moveInputActionString).bindings[1].ToDisplayString();
+                return playerInput.actions.FindAction(moveInputActionString).bindings[1].ToDisplayString();
             case Binding.MOVE_LEFT:
-                return inputActions.FindAction(moveInputActionString).bindings[2].ToDisplayString();
+                return playerInput.actions.FindAction(moveInputActionString).bindings[2].ToDisplayString();
             case Binding.MOVE_DOWN:
-                return inputActions.FindAction(moveInputActionString).bindings[3].ToDisplayString();
+                return playerInput.actions.FindAction(moveInputActionString).bindings[3].ToDisplayString();
             case Binding.MOVE_RIGHT:
-                return inputActions.FindAction(moveInputActionString).bindings[4].ToDisplayString();
+                return playerInput.actions.FindAction(moveInputActionString).bindings[4].ToDisplayString();
             case Binding.JUMP:
-                return inputActions.FindAction(jumpInputActionString).bindings[0].ToDisplayString();
+                return playerInput.actions.FindAction(jumpInputActionString).bindings[0].ToDisplayString();
             case Binding.FIRE:
-                return inputActions.FindAction(fireInputActionString).bindings[0].ToDisplayString();
+                return playerInput.actions.FindAction(fireInputActionString).bindings[0].ToDisplayString();
             case Binding.LAUNCH_MAGNET:
-                return inputActions.FindAction(launchMagnetInputActionString).bindings[0].ToDisplayString();
+                return playerInput.actions.FindAction(launchMagnetInputActionString).bindings[0].ToDisplayString();
             case Binding.ATTRACT:
-                return inputActions.FindAction(attractInputActionString).bindings[0].ToDisplayString();
+                return playerInput.actions.FindAction(attractInputActionString).bindings[0].ToDisplayString();
             case Binding.REPEL:
-                return inputActions.FindAction(repelInputActionString).bindings[0].ToDisplayString();
-            case Binding.MENU:
-                return inputActions.FindAction(menuInputActionString).bindings[0].ToDisplayString();
+                return playerInput.actions.FindAction(repelInputActionString).bindings[0].ToDisplayString();
+            case Binding.CHARGE:
+                return playerInput.actions.FindAction(chargeInputActionString).bindings[0].ToDisplayString();
         }
     }
 }

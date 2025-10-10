@@ -13,7 +13,7 @@ public class InputRebindingUI : MonoBehaviour {
     [SerializeField] private Button launchMagnetButton;
     [SerializeField] private Button attractButton;
     [SerializeField] private Button repelButton;
-    [SerializeField] private Button menuButton;
+    [SerializeField] private Button chargeButton;
 
     [Header("Buttons Texts")]
     [SerializeField] private Text moveUpButtonText;
@@ -25,18 +25,18 @@ public class InputRebindingUI : MonoBehaviour {
     [SerializeField] private Text launchMagnetButtonText;
     [SerializeField] private Text attractButtonText;
     [SerializeField] private Text repelButtonText;
-    [SerializeField] private Text menuButtonText;
+    [SerializeField] private Text chargeButtonText;
 
     private void Start() {
-        InputRebinding.Instance.OnInputRebinding += InputRebinding_OnInputRebinding;
+        InputRebinding.Instance.OnInputRebindingCompleted += InputRebinding_OnInputRebindingCompleted;
         UpdateBindingTexts();
     }
 
     private void OnDestroy() {
-        InputRebinding.Instance.OnInputRebinding -= InputRebinding_OnInputRebinding;
+        InputRebinding.Instance.OnInputRebindingCompleted -= InputRebinding_OnInputRebindingCompleted;
     }
 
-    private void InputRebinding_OnInputRebinding(object sender, System.EventArgs e) {
+    private void InputRebinding_OnInputRebindingCompleted(object sender, System.EventArgs e) {
         UpdateBindingTexts();
     }
 
@@ -76,8 +76,8 @@ public class InputRebindingUI : MonoBehaviour {
         InputRebinding.Instance.RebindBinding(InputRebinding.Binding.REPEL);
     }
 
-    public void RebindMenuButton() {
-        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.MENU);
+    public void RebindCharge() {
+        InputRebinding.Instance.RebindBinding(InputRebinding.Binding.CHARGE);
     }
 
     public void UpdateBindingTexts() {
@@ -90,6 +90,6 @@ public class InputRebindingUI : MonoBehaviour {
         launchMagnetButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.LAUNCH_MAGNET);
         attractButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.ATTRACT);
         repelButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.REPEL);
-        menuButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.MENU);
+        chargeButtonText.text = InputRebinding.Instance.GetBinding(InputRebinding.Binding.CHARGE);
     }
 }
