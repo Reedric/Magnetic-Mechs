@@ -38,6 +38,22 @@ public class StartScreenLogic : MonoBehaviour
     {
         SceneManager.LoadScene("Level 4");
     }
+    public void StartStage5()
+    {
+        SceneManager.LoadScene("Level 5");
+    }
+    public void StartStage6()
+    {
+        SceneManager.LoadScene("Level 6");
+    }
+    public void StartStage7()
+    {
+        SceneManager.LoadScene("Level 7");
+    }
+    public void StartStage8()
+    {
+        SceneManager.LoadScene("Level 8");
+    }
     public void GamePadPressed(InputAction.CallbackContext context)
     {
         if (context.performed)

@@ -33,6 +33,9 @@ TagManager:
   - MagnetSpawner
   - MusicSource
   - MovingPlatform
+  - NonStickPlatform
+  - BeeBoss
+  - BeeBossParent
   layers:
   - Default
   - TransparentFX
@@ -54,7 +57,7 @@ TagManager:
   - Wall
   - Despawn
   - Spike
-  - 
+  - FireWall
   - 
   - 
   - 
