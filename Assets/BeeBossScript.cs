@@ -67,6 +67,7 @@ public class BeeBossScript : MonoBehaviour
         //yield return new WaitUntil(() => gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Dead"));
         //Destroy(gameObject);
         gameObject.SetActive(false);
+
     }
     public void activateBoss()
     {
