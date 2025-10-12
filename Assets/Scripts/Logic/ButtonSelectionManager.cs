@@ -10,61 +10,105 @@ public class ButtonSelectionManager : MonoBehaviour
 {
     //manages selecting buttons in the menu and pause screen
     [Header("Game Objects")]
-    public Transform ButtonParent;
+    public Transform pauseButtonParent;
+    public Transform settingsButtonParent;
     [Header("Variables")]
-    public List<GameObject> Buttons;
+    public List<GameObject> pauseButtons;
+    public List<GameObject> settingsButtons;
     [Header("Timers")]
     private float delay = .02f;
     private float readyToChange = 0f;
-    public int CurrentSelection = 0;
+    public int currentSelection = 0;
+
+    private List<GameObject> buttons;
+    private bool isEnabled;
+
     private void Awake()
     {
-        foreach (Transform child in ButtonParent)
-        {
+        foreach (Transform child in pauseButtonParent) {
             GameObject button = child.gameObject;
-            Buttons.Add(button);
+            pauseButtons.Add(button);
         }
+        foreach (Transform child in settingsButtonParent) {
+            GameObject button = child.gameObject;
+            settingsButtons.Add(button);
+        }
+        SetGameMenuState(LogicScript.GameMenuState.PAUSE_MENU);
         GameObject savedVariablesObject = GameObject.FindGameObjectWithTag("MultiSceneVariables");
-        setButtonSize(CurrentSelection);
+        SetButtonSize(currentSelection);
     }
+
     public void Move(InputAction.CallbackContext context)
     {
+        if (!isEnabled) {
+            return;
+        }
+
         float change = context.ReadValue<Vector2>().x;
         if(Time.realtimeSinceStartup > readyToChange)
         {
             if(change > .25)
             {
-                CurrentSelection += 1;
-                if(CurrentSelection >= Buttons.Count)
+                currentSelection += 1;
+                if(currentSelection >= buttons.Count)
                 {
-                    CurrentSelection = 0;
+                    currentSelection = 0;
                 }
             }
             else if (change < -.25)
             {
-                CurrentSelection -= 1;
-                if (CurrentSelection < 0)
+                currentSelection -= 1;
+                if (currentSelection < 0)
                 {
-                    CurrentSelection = Buttons.Count - 1;
+                    currentSelection = buttons.Count - 1;
                 }
             }
             readyToChange = Time.realtimeSinceStartup + delay;
-            setButtonSize(CurrentSelection);
+            SetButtonSize(currentSelection);
         }
     }
-    public void setButtonSize(int currentSelection)
+
+    public void SetButtonSize(int currentSelection)
     {
-        foreach(GameObject button in Buttons) 
+        if (!isEnabled) {
+            return;
+        }
+        
+        foreach (GameObject button in buttons) 
         {
             button.GetComponent<RectTransform>().localScale = Vector3.one;
         }
-        Buttons[currentSelection].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1.25f);
+        buttons[currentSelection].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1.25f);
     }
+
     public void Select(InputAction.CallbackContext context)
     {
+        if (!isEnabled) {
+            return;
+        }
+
         if (context.performed)
         {
-            Buttons[CurrentSelection].GetComponent<Button>().onClick.Invoke();
+            buttons[currentSelection].GetComponent<Button>().onClick.Invoke();
         }
+    }
+
+    public void SetGameMenuState(LogicScript.GameMenuState menuState) {
+        switch (menuState) {
+            case LogicScript.GameMenuState.PAUSE_MENU:
+                buttons = pauseButtons;
+                isEnabled = true;
+                break;
+            case LogicScript.GameMenuState.SETTINGS_MENU:
+                buttons = settingsButtons;
+                isEnabled = true;
+                break;
+            default:
+            case LogicScript.GameMenuState.PLAYING:
+                isEnabled = false;
+                return;
+        }
+        currentSelection = 0;
+        SetButtonSize(currentSelection);
     }
 }
