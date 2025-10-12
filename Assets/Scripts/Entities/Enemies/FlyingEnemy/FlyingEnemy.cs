@@ -6,11 +6,12 @@ public class FlyingEnemy : MonoBehaviour
 
     [Header("Vertical Movement")]
     public float verticalSpeed = 2;
-    private float startingY;
-    public float movementRange = 10;
+    public float startingY;
     public float switchTime = 2;
     public float switchCounter;
-    private float verticalDirection = 1;
+    public float verticalDirection = 1;
+    public Transform upperVerticalBound;
+    public Transform lowerVerticalBound;
 
     [Header("Tracking Player")]
     public Transform playerTransform;
@@ -36,10 +37,13 @@ public class FlyingEnemy : MonoBehaviour
         myRigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         myCollider = GetComponent<BoxCollider2D>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         health = startingHealth;
         startingY = transform.position.y;
         movementEnabled = true;
         switchCounter = switchTime;
+        upperVerticalBound.localPosition = new Vector3(0f, upperVerticalBound.localPosition.y, 0f);
+        lowerVerticalBound.localPosition = new Vector3(0f, lowerVerticalBound.localPosition.y, 0f);
     }
 
     // Update is called once per frame
@@ -47,17 +51,17 @@ public class FlyingEnemy : MonoBehaviour
     {
         if (movementEnabled)
         {
-            if (transform.position.y < startingY - (movementRange / 2)) // too low
+            if (transform.position.y < lowerVerticalBound.position.y) // too low
             {
                 verticalDirection = 1;
                 switchCounter = switchTime;
             }
-            else if (transform.position.y > startingY + (movementRange / 2)) // too high
+            else if (transform.position.y > upperVerticalBound.position.y) // too high
             {
                 verticalDirection = -1;
                 switchCounter = switchTime;
             }
-            myRigidBody2D.linearVelocity = new Vector3(4f, verticalSpeed * verticalDirection, 0f);
+            myRigidBody2D.linearVelocity = new Vector3(0f, verticalSpeed * verticalDirection, 0f);
         }
 
         if (switchCounter <= 0)
