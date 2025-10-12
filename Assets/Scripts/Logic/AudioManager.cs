@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     private AudioMixerGroup sfxGroup;
     private AudioMixerGroup musicGroup;
     private AudioSource[] allSources;
+    private bool volumeLoaded;
 
     void Start()
     {
@@ -35,6 +36,10 @@ public class AudioManager : MonoBehaviour
 
     public void SetAudioVolume()
     {
+        if (!volumeLoaded) {
+            return;
+        }
+
         float sfxVolume = sfxSlider.value;
         float musicVolume = musicSlider.value;
         mixer.SetFloat("SFXVolume", Mathf.Log10(sfxVolume) * 20);
@@ -58,6 +63,7 @@ public class AudioManager : MonoBehaviour
         sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
         musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
 
+        volumeLoaded = true;
         SetAudioVolume();
     }
 }

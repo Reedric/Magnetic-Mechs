@@ -67,7 +67,7 @@ public class SettingsLogicScript : MonoBehaviour
     }
     public void toGoBack()
     {
-        LogicScript.logicSingleton.goBack();
+        LogicScript.logicSingleton.ShowPauseMenu();
     }
 
     public void toChangeBind()
