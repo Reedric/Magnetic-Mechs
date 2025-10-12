@@ -202,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5499822156252095957, guid: 0d63bf07d5ce8c9408812a807fafc4c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.5
+      value: -15.525
       objectReference: {fileID: 0}
     - target: {fileID: 5499822156252095957, guid: 0d63bf07d5ce8c9408812a807fafc4c6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -777,7 +777,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5499822156252095957, guid: 387809f7a8b0980489a57a9019dde540, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.5
+      value: -15.525
       objectReference: {fileID: 0}
     - target: {fileID: 5499822156252095957, guid: 387809f7a8b0980489a57a9019dde540, type: 3}
       propertyPath: m_LocalPosition.y
@@ -818,6 +818,10 @@ PrefabInstance:
     - target: {fileID: 5752900602501702395, guid: 387809f7a8b0980489a57a9019dde540, type: 3}
       propertyPath: m_Name
       value: Platform Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 7648664601315410087, guid: 387809f7a8b0980489a57a9019dde540, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4434,6 +4438,63 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4281581206875804581, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
   m_PrefabInstance: {fileID: 1103241072}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4645136290144838851
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2602090597516053299, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_Name
+      value: Homing Non-Platform Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -15.525
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693132685739250196, guid: d066476f451ff91419e8852aef1214e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d066476f451ff91419e8852aef1214e6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4452,3 +4513,4 @@ SceneRoots:
   - {fileID: 1850890821}
   - {fileID: 1039646116}
   - {fileID: 155312092}
+  - {fileID: 4645136290144838851}

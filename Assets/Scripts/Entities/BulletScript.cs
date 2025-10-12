@@ -16,11 +16,11 @@ public class BulletScript : MonoBehaviour
     //private GameObject explosionEffect;
     //private Vector3 explosionOffset = new Vector3(0, .05f, 0);
 
-    private bool isPlatformMissile;
+    public bool isPlatformMissile;
 
     void Start()
     {
-        isPlatformMissile = gameObject.GetComponentInChildren<MissilePlatformManager>() != null;
+        isPlatformMissile = gameObject.GetComponent<MissilePlatformManager>() != null;
     }
 
     // Update is called once per frame
@@ -46,14 +46,7 @@ public class BulletScript : MonoBehaviour
         //Destroy(effect, effect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
         if(parent!= null && collision.gameObject != parent && collision.gameObject.layer != 8 && collision.gameObject.layer != 13 && collision.gameObject.layer != 14 && collision.gameObject.layer != 5)
         {
-            if (isPlatformMissile)
-            {
-                if (collision.gameObject.tag != "Magnet")
-                {
-                    KillBullet();
-                }
-            }
-            else
+            if (!isPlatformMissile)
             {
                 KillBullet();
             }
