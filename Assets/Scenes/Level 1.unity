@@ -1259,7 +1259,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.7757435, y: 0, z: 0}
+  m_LocalPosition: {x: 9.780384, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7639,7 +7639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 30.03003, y: -35.039993}
+  m_AnchoredPosition: {x: 30.03003, y: -35.04001}
   m_SizeDelta: {x: 60.07, y: 70.07}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1287800488
@@ -33797,10 +33797,14 @@ PrefabInstance:
     - target: {fileID: 782574143743567904, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1943576263}
     - target: {fileID: 782574143743567904, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: TryAgain
+      objectReference: {fileID: 0}
+    - target: {fileID: 782574143743567904, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LogicScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1009322136423450299, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
       propertyPath: m_Text
