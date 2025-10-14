@@ -71,6 +71,14 @@ public class LogicScript : MonoBehaviour
     {
         SceneManager.LoadScene("Level 7");
     }
+    public void StartLevelEight()
+    {
+        SceneManager.LoadScene("Level 8");
+    }
+    public void StartLevelNine()
+    {
+        SceneManager.LoadScene("Level 9");
+    }
     public void StartLevelSelect()
     {
         menuState = GameMenuState.PLAYING;
@@ -156,13 +164,22 @@ public class LogicScript : MonoBehaviour
     {
         get { return menuState != GameMenuState.PLAYING; }
     }
-    public void StartStage4Delay()
+    public void StartPostSpiderBossDelay()
     {
-        StartCoroutine(StartStage4(3f));
+        StartCoroutine(StartPostSpiderBoss(3f));
     }
-    public IEnumerator StartStage4(float delay)
+    public IEnumerator StartPostSpiderBoss(float delay)
     {
         yield return new WaitForSeconds(delay);
-        StartLevelFour();
+        StartLevelFive();
+    }
+    public void StartPostBeeBossDelay()
+    {
+        StartCoroutine(StartPostBeeBoss(3f));
+    }
+    public IEnumerator StartPostBeeBoss(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StartLevelNine();
     }
 }
