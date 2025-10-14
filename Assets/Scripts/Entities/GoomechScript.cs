@@ -97,7 +97,7 @@ public class GoomechScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        animator.SetBool("hasDied", false);
+        //animator.SetBool("hasDied", false);
     }
     public void SpawnBehavior()
     {
