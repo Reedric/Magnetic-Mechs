@@ -54,6 +54,10 @@ public class StartScreenLogic : MonoBehaviour
     {
         SceneManager.LoadScene("Level 8");
     }
+    public void StartStage9()
+    {
+        SceneManager.LoadScene("Level 9");
+    }
     public void GamePadPressed(InputAction.CallbackContext context)
     {
         if (context.performed)

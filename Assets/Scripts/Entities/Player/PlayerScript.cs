@@ -86,7 +86,7 @@ public class PlayerScript : MonoBehaviour
     public SpriteRenderer chargeIndicator;
 
     [Header("Jetpack")]
-    private float jetpackTotalTime = 1.5f;
+    private float jetpackTotalTime = 1.4f;
     public float jetpackCurrentTime = 0f;
     private float jetPackForce = 12f;
     private float maxJetSpeed = 19f;

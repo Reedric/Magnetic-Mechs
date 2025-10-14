@@ -60,7 +60,7 @@ public class BeeBossHealthScript : MonoBehaviour
     public void HandleBossDeath()
     {
         if (beeBossScript == null) return;
-        logic.StartStage4Delay();
+        logic.StartPostBeeBossDelay();
         beeBossScript.KillBoss();
     }
 }

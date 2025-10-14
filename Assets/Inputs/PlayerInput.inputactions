@@ -54,7 +54,7 @@
                     "name": "Repel",
                     "type": "Button",
                     "id": "e661dd8d-4681-43c7-a42a-5ebad22012ea",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -344,7 +344,7 @@
                 {
                     "name": "",
                     "id": "d1e74dd0-0832-4527-984d-d7ac61423e61",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -421,7 +421,7 @@
                 {
                     "name": "",
                     "id": "409d7432-e5f7-4d22-8b64-2f618a4c80d9",
-                    "path": "<Keyboard>/leftCtrl",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
