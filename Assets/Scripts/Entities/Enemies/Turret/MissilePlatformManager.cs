@@ -10,8 +10,11 @@ public class MissilePlatformManager : MonoBehaviour
         platformCollider.enabled = (transform.eulerAngles.z == 0 || transform.eulerAngles.z == 180);
     }
 
-    private void FixedUpdate()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        transform.localPosition = Vector3.zero;
+        if (bulletScript.parent != null && (collision.gameObject.layer == 6 || collision.gameObject.layer == 17))
+        {
+            bulletScript.KillBullet();
+        }
     }
 }
