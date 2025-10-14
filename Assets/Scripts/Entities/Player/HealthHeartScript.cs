@@ -50,7 +50,7 @@ public class HealthHeartScript : MonoBehaviour
     }
     void SetHeartContainers()
     {
-        int maxHealth = (int)PlayerHealth.GetComponent<PlayerHealthScript>().maxHealth;
+        int maxHealth = (int)PlayerHealth.GetComponent<PlayerHealthScript>().getMaxHealth();
         for (int i = 0; i < heartContainers.Length; i++)
         {
             if (i < maxHealth)

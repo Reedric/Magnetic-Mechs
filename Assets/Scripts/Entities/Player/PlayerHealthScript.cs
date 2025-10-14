@@ -13,7 +13,7 @@ public class PlayerHealthScript : MonoBehaviour
     public LogicScript Logic;
     [Header("Health")]
     public float currentHealth;
-    public float maxHealth = 5;
+    private float maxHealth = 10;
     public float maxPossibleHealth = 16;
     [Header("Invincibility")]
     const float invincibilityTimeDefault = .5f;
@@ -63,5 +63,9 @@ public class PlayerHealthScript : MonoBehaviour
     {
         playerScript.KillPlayer();
         Logic.GameOver();
+    }
+    public float getMaxHealth()
+    {
+        return maxHealth;
     }
 }
