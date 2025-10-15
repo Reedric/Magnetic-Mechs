@@ -9,6 +9,8 @@ public class MultiSceneVariables : MonoBehaviour
     public bool gamePadNotMouse = false;
     [Header("Singleton")]
     public static MultiSceneVariables multiSceneVariablesInstance;
+    [Header("Checkpoint")]
+    private int currCheckpoint = 0;
     private void Awake()
     {
         if (multiSceneVariablesInstance != null && multiSceneVariablesInstance != this)
@@ -20,5 +22,13 @@ public class MultiSceneVariables : MonoBehaviour
             multiSceneVariablesInstance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
+    public void setCheckpoint(int newPoint)
+    {
+        currCheckpoint = newPoint;
+    }
+    public int getCheckpoint()
+    {
+        return currCheckpoint;
     }
 }
