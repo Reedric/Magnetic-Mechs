@@ -380,7 +380,7 @@ public class PlayerScript : MonoBehaviour
         bool playerInteracting = HasRecentInput();
         //playerInteracting = false;
         //onMovingPlatform = true;
-        Debug.Log($"onMovingPlatform={onMovingPlatform}, playerInteracting={playerInteracting}");
+        //Debug.Log($"onMovingPlatform={onMovingPlatform}, playerInteracting={playerInteracting}");
         float targetFriction = (onMovingPlatform && !playerInteracting) ? highFrictionMaterial.friction : lowFrictionMaterial.friction;
         currentFriction = Mathf.Lerp(currentFriction, targetFriction, frictionLerpSpeed * Time.deltaTime);
         if (myRigidbody2D.sharedMaterial == null) {
@@ -391,11 +391,18 @@ public class PlayerScript : MonoBehaviour
         {
             myRigidbody2D.sharedMaterial.friction = currentFriction;
         }
+        //Debug.Log(onMovingPlatform);
         if (onMovingPlatform && platformRb!=null) {
+            Vector3 platformDelta;
             if (lastPlatformPosition == Vector3.zero) {
                 lastPlatformPosition = platformRb.transform.position;
             }
-            Vector3 platformDelta = platformRb.transform.position - lastPlatformPosition;
+
+            Vector3 tempVec = platformRb.transform.position - lastPlatformPosition;
+            platformDelta = tempVec.magnitude > 0.5f ? Vector3.zero:tempVec;
+            //Debug.Log($"{platformDelta}, {platformRb.transform.position}, {lastPlatformPosition}");
+
+
             if (!playerInteracting && currentFriction >= highFrictionMaterial.friction * 0.5f)
             {
                 transform.position += platformDelta;
@@ -406,6 +413,7 @@ public class PlayerScript : MonoBehaviour
                 transform.position += platformDelta;
             }
             
+            
                 lastPlatformPosition = platformRb.transform.position;
         }
         else
@@ -413,7 +421,7 @@ public class PlayerScript : MonoBehaviour
            lastPlatformPosition = Vector3.zero;
         }
 
-        Debug.Log($"currentFriction={currentFriction}");
+        //Debug.Log($"currentFriction={currentFriction}");
 
     }
     void handleHorizontalMovement()
