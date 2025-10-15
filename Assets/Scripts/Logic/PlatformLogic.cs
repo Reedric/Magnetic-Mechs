@@ -65,6 +65,7 @@ public class PlatformLogic : MonoBehaviour
                 break;
             // Paused at start point
             case PlatformState.PausedAtStart:
+                
                 // Do nothing
                 break;
             // How did we get here?
@@ -80,9 +81,14 @@ public class PlatformLogic : MonoBehaviour
     // "nextState" represents the next moving state that the platform will be in
     void MoveTowards(bool end, PlatformState nextState)
     {
+        Vector2 targetPos = end ? endPosition : startPosition;
+        Vector2 currentPos = rb.position;
+        Vector2 direction = (targetPos - currentPos).normalized;
         // Update timer
         timer += Time.fixedDeltaTime;
 
+        float distance = Vector2.Distance(currentPos, targetPos);
+        float speed = Vector2.Distance(startPosition, endPosition) / travelTime;
         // Make a smooth step based on the timer
         float t = Mathf.SmoothStep(0.0f, 1.0f, timer / travelTime);
 
@@ -92,16 +98,28 @@ public class PlatformLogic : MonoBehaviour
             end ? endPosition : startPosition,
             t
         );
+        //rb.linearVelocity = direction * speed;
 
         // Move the platform based on which direction we are moving
+
         rb.MovePosition(newPosition);
 
         // Reset timer after "travelTime" seconds, pause for "pauseTime" seconds, then move other way
+        
         if (timer >= travelTime)
         {
             timer = 0;
             StartCoroutine(PauseThenSwitch(nextState));
         }
+        /*
+        if (distance <= speed*Time.fixedDeltaTime)
+        {
+            rb.position = targetPos;
+            rb.linearVelocity = Vector2.zero;
+            timer = 0;
+            StartCoroutine(PauseThenSwitch(nextState));
+        }
+        */
     }
 
     // Method for pausing the platform at an endpoint then switching directions

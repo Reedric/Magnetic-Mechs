@@ -138,7 +138,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Platform Friction")]
     public PhysicsMaterial2D lowFrictionMaterial;
     public PhysicsMaterial2D highFrictionMaterial;
-    [Range(0f,10f)] public float frictionLerpSpeed = 10f;
+    [Range(0f,1000f)] public float frictionLerpSpeed = 10f;
     public float inputMemoryDuration = 0.1f;
 
     [Header("Recent Input Timers")]
@@ -146,6 +146,10 @@ public class PlayerScript : MonoBehaviour
     public float lastJumpInputTime = -10f;
     public float lastRepelInputTime = -10f;
     public float lastAttractInputTime = -10f;
+    public bool checkMovementInput = false;
+    public bool checkJumpInput = false;
+
+    public Vector3 lastPlatformPosition;
     private void Awake()
     {
         myRigidbody2D = GetComponent<Rigidbody2D>();
@@ -272,6 +276,14 @@ public class PlayerScript : MonoBehaviour
         jetpackBackwardsOn = !trulyOnGround && Mathf.Abs(direction) > 0;
         jetpackBackwards.GetComponent<JetpackScript>().setJetpack(jetpackBackwardsOn);
         //jumpPressed = false;
+
+        //Experiment
+        if (checkMovementInput) {
+            lastMoveInputTime = Time.time;
+        }
+        if (checkJumpInput) {
+            lastJumpInputTime = Time.time;
+        }
     }
     private void FixedUpdate()
     {
@@ -292,29 +304,35 @@ public class PlayerScript : MonoBehaviour
 
     public void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
         Vector2 v = ctx.ReadValue<Vector2>();
-        direction = v.x;
-        if (ctx.performed) lastMoveInputTime = Time.time;
-        if (ctx.canceled) direction = 0f;
-        
+
+        if (ctx.performed) checkMovementInput = true;
+        if (ctx.canceled) checkMovementInput = false;
+        //Debug.Log("OnMove Activate");
+
     }
     public void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
         if (ctx.performed) {
             jumpPressed = true;
-            lastJumpInputTime = Time.time;
-            
+            checkJumpInput = true;
+
         }
-        if (ctx.canceled) jumpPressed = false;
+        if (ctx.canceled)
+        {
+            jumpPressed = false;
+            checkJumpInput = false;
+        }
+        //Debug.Log("OnJump Activate");
     }
 
     public void OnRepel(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
-        if (ctx.performed) {
+        if (ctx.ReadValueAsButton()) {
            
             lastRepelInputTime = Time.time;
         }
         repelOn = ctx.ReadValueAsButton();
     }
     public void OnAttract(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
-        if (ctx.performed) {
+        if (ctx.ReadValueAsButton()) {
            
             lastAttractInputTime = Time.time;
         }
@@ -322,10 +340,13 @@ public class PlayerScript : MonoBehaviour
     }
     private bool HasRecentInput()
     {
+        //Debug.Log(lastMoveInputTime);
         float now = Time.time;
-        Debug.Log($"RecentMove={now - lastMoveInputTime < 0.1f}, " +
-          $"RecentJump={now - lastJumpInputTime < 0.1f}, " +
-          $"RecentMagnet={now - lastRepelInputTime < 0.1f || now - lastAttractInputTime < 0.1f}");
+        
+        //Debug.Log($"RecentMove={now - lastMoveInputTime < 0.1f}, " +
+        //  $"RecentJump={now - lastJumpInputTime < 0.1f}, " +
+        //  $"RecentMagnet={now - lastRepelInputTime < 0.1f || now - lastAttractInputTime < 0.1f}");
+        //Debug.Log($"lastMoveInputTime={lastMoveInputTime}, lastJumpInputTime={lastJumpInputTime}, lastRepelInputTime={lastRepelInputTime}, lastAttractInputTime={lastAttractInputTime}, now={now}");
         bool recentMove = now - lastMoveInputTime < inputMemoryDuration;
         bool recentJump = now - lastJumpInputTime < inputMemoryDuration;
         bool recentMagnet = (now - lastRepelInputTime < inputMemoryDuration && repelOn && myMagnet != null) ||
@@ -338,15 +359,14 @@ public class PlayerScript : MonoBehaviour
         platformRb = null;
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position - distanceToLeg, Vector2.down, groundLength, groundLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position + distanceToLeg, Vector2.down, groundLength, groundLayer);
-        RaycastHit2D hit = hitLeft.collider ? hitLeft : hitRight;
-        if (hit.collider != null) {
-            platformRb = hit.collider.attachedRigidbody as Rigidbody2D;
-            if (platformRb != null) { 
-                return platformRb.linearVelocity.magnitude > 0.05f;
+        RaycastHit2D[] hits = { hitLeft, hitRight };
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != null && hit.collider.CompareTag("MovingPlatform"))
+            {
+                platformRb = hit.collider.attachedRigidbody;
+                return true;
             }
-            
-                
-            
         }
         return false;
     }
@@ -355,9 +375,14 @@ public class PlayerScript : MonoBehaviour
         if (myRigidbody2D == null) return;
         Rigidbody2D platformRb;
         bool onMovingPlatform = IsOnMovingPlatform(out platformRb);
+        
+        
         bool playerInteracting = HasRecentInput();
+        //playerInteracting = false;
+        //onMovingPlatform = true;
+        Debug.Log($"onMovingPlatform={onMovingPlatform}, playerInteracting={playerInteracting}");
         float targetFriction = (onMovingPlatform && !playerInteracting) ? highFrictionMaterial.friction : lowFrictionMaterial.friction;
-        currentFriction = Mathf.Lerp(currentFriction, targetFriction, Time.deltaTime * frictionLerpSpeed);
+        currentFriction = Mathf.Lerp(currentFriction, targetFriction, frictionLerpSpeed * Time.deltaTime);
         if (myRigidbody2D.sharedMaterial == null) {
             var mat = new PhysicsMaterial2D("runtimeMat") {friction = currentFriction, bounciness = 0f};
             myRigidbody2D.sharedMaterial = mat;
@@ -366,7 +391,31 @@ public class PlayerScript : MonoBehaviour
         {
             myRigidbody2D.sharedMaterial.friction = currentFriction;
         }
+        if (onMovingPlatform && platformRb!=null) {
+            if (lastPlatformPosition == Vector3.zero) {
+                lastPlatformPosition = platformRb.transform.position;
+            }
+            Vector3 platformDelta = platformRb.transform.position - lastPlatformPosition;
+            if (!playerInteracting && currentFriction >= highFrictionMaterial.friction * 0.5f)
+            {
+                transform.position += platformDelta;
+            }
+            /*
+            else {
+                Vector2 platformPos = new Vector2(platformRb.transform.position.x, transform.position.y);
+                //
+                Debug.Log($"platformPos={platformPos}, result = {myRigidbody2D.linearVelocity+platformPos}");
+                transform.position = (myRigidbody2D.linearVelocity + platformPos);
+            }
+            */
+                lastPlatformPosition = platformRb.transform.position;
+        }
+        else
+        {
+           lastPlatformPosition = Vector3.zero;
+        }
 
+        Debug.Log($"currentFriction={currentFriction}");
 
     }
     void handleHorizontalMovement()
