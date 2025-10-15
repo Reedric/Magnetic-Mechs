@@ -400,14 +400,12 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.position += platformDelta;
             }
-            /*
+            
             else {
-                Vector2 platformPos = new Vector2(platformRb.transform.position.x, transform.position.y);
-                //
-                Debug.Log($"platformPos={platformPos}, result = {myRigidbody2D.linearVelocity+platformPos}");
-                transform.position = (myRigidbody2D.linearVelocity + platformPos);
+                //The goal is to conserve player momentum when moving on the platform
+                transform.position += platformDelta;
             }
-            */
+            
                 lastPlatformPosition = platformRb.transform.position;
         }
         else
