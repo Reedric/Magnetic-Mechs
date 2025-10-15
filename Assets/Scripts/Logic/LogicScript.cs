@@ -18,6 +18,7 @@ public class LogicScript : MonoBehaviour
     [Header("Components")]
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
+    private MultiSceneVariables multiSceneVariables;
     //public Text remainingFuelText;
     public GameObject settingsScreen;
     public PlayerInput playerInput;
@@ -34,6 +35,7 @@ public class LogicScript : MonoBehaviour
         {
             logicSingleton = this;
         }
+        multiSceneVariables = GameObject.FindGameObjectWithTag("MultiSceneVariables").GetComponent<MultiSceneVariables>();
     }
     private void Start()
     {
@@ -49,34 +51,42 @@ public class LogicScript : MonoBehaviour
 
     public void StartLevelTwo()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 2");
     }
     public void StartLevelThree()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 3");
     }
     public void StartLevelFour()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 4");
     }
     public void StartLevelFive()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 5");
     }
     public void StartLevelSix()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 6");
     }
     public void StartLevelSeven()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 7");
     }
     public void StartLevelEight()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 8");
     }
     public void StartLevelNine()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 9");
     }
     public void StartLevelSelect()
