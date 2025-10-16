@@ -8,27 +8,42 @@ using Unity.VisualScripting;
 
 public class LogicScript : MonoBehaviour
 {
+    public enum GameMenuState {
+        PLAYING,
+        PAUSE_MENU,
+        SETTINGS_MENU
+    }
+
     //A singleton intended to hold functions that are used regularly by other scripts
     [Header("Components")]
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
+    private MultiSceneVariables multiSceneVariables;
     //public Text remainingFuelText;
     public GameObject settingsScreen;
     public PlayerInput playerInput;
-    [Header("variables")]
-    private bool isPaused = false;
+    public ButtonSelectionManager buttonSelectionManager;
+
     [Header("Singleton")]
     public static LogicScript logicSingleton;
+
+    private GameMenuState menuState;
+
     private void Awake()
     {
         if (logicSingleton == null)
         {
             logicSingleton = this;
         }
+        multiSceneVariables = GameObject.FindGameObjectWithTag("MultiSceneVariables").GetComponent<MultiSceneVariables>();
+    }
+    private void Start()
+    {
+        buttonSelectionManager.SetGameMenuState(GameMenuState.PLAYING);
     }
     public void TryAgain()
     {
-        isPaused = false;
+        menuState = GameMenuState.PLAYING;
         Time.timeScale = 1.0f;
         //playerInput.SwitchCurrentActionMap("Player");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -36,31 +51,47 @@ public class LogicScript : MonoBehaviour
 
     public void StartLevelTwo()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 2");
     }
     public void StartLevelThree()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 3");
     }
     public void StartLevelFour()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 4");
     }
     public void StartLevelFive()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 5");
     }
     public void StartLevelSix()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 6");
     }
     public void StartLevelSeven()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 7");
     }
-    public void Menu()
+    public void StartLevelEight()
     {
-        isPaused = false;
+        multiSceneVariables.setCheckpoint(0);
+        SceneManager.LoadScene("Level 8");
+    }
+    public void StartLevelNine()
+    {
+        multiSceneVariables.setCheckpoint(0);
+        SceneManager.LoadScene("Level 9");
+    }
+    public void StartLevelSelect()
+    {
+        menuState = GameMenuState.PLAYING;
         Time.timeScale = 1.0f;
         SceneManager.LoadScene("Main Menu");
     }
@@ -70,31 +101,64 @@ public class LogicScript : MonoBehaviour
     }
     public void Pause()
     {
-        if (isPaused)
-        {
-            Time.timeScale = 1.0f;
-            playerInput.SwitchCurrentActionMap("Player");
-            pauseScreen.SetActive(false);
-            settingsScreen.SetActive(false);
+        //Debug.Log("Pause from old state = " + menuState);
+        switch (menuState) {
+            case GameMenuState.PLAYING:
+                ShowPauseMenu();
+                break;
+            case GameMenuState.PAUSE_MENU:
+                HideMenus();
+                break;
+            case GameMenuState.SETTINGS_MENU:
+                ShowPauseMenu();
+                break;
         }
-        else
-        {
-            Time.timeScale = 0.0f;
-            pauseScreen.SetActive(true);
-            playerInput.SwitchCurrentActionMap("UI");
-        }
-        isPaused = !isPaused;
     }
-    public void SetControls()
+    public void ShowSettingsMenu()
     {
+        // Pause game
+        Time.timeScale = 0.0f;
+        playerInput.SwitchCurrentActionMap("UI");
+
+        // Show settings menu
         pauseScreen.SetActive(false);
         settingsScreen.SetActive(true);
-        Debug.Log("test");
+        
+        // Update button selection visual
+        menuState = GameMenuState.SETTINGS_MENU;
+        buttonSelectionManager.SetGameMenuState(menuState);
+
+        //Debug.Log("ShowSettingsMenu; new state = " + menuState);
     }
-    public void goBack()
+    public void ShowPauseMenu()
     {
-        settingsScreen.SetActive(false);
+        // Pause game
+        Time.timeScale = 0.0f;
+        playerInput.SwitchCurrentActionMap("UI");
+
+        // Show pause menu
         pauseScreen.SetActive(true);
+        settingsScreen.SetActive(false);
+
+        // Update button selection visual
+        menuState = GameMenuState.PAUSE_MENU;
+        buttonSelectionManager.SetGameMenuState(menuState);
+
+        //Debug.Log("ShowPauseMenu; new state = " + menuState);
+    }
+    public void HideMenus()
+    {
+        // Unpause game
+        Time.timeScale = 1.0f;
+        playerInput.SwitchCurrentActionMap("Player");
+
+        // Hide menus
+        pauseScreen.SetActive(false);
+        settingsScreen.SetActive(false);
+        
+        menuState = GameMenuState.PLAYING;
+
+        //Debug.Log("HideMenus; new state = " + menuState);
     }
     /*
     public void changeBind(GameObject button)
@@ -108,15 +172,24 @@ public class LogicScript : MonoBehaviour
     }
     public bool IsPaused
     {
-        get { return isPaused; }
+        get { return menuState != GameMenuState.PLAYING; }
     }
-    public void StartStage4Delay()
+    public void StartPostSpiderBossDelay()
     {
-        StartCoroutine(StartStage4(3f));
+        StartCoroutine(StartPostSpiderBoss(3f));
     }
-    public IEnumerator StartStage4(float delay)
+    public IEnumerator StartPostSpiderBoss(float delay)
     {
         yield return new WaitForSeconds(delay);
-        StartLevelFour();
+        StartLevelFive();
+    }
+    public void StartPostBeeBossDelay()
+    {
+        StartCoroutine(StartPostBeeBoss(3f));
+    }
+    public IEnumerator StartPostBeeBoss(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StartLevelNine();
     }
 }

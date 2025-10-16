@@ -32,7 +32,7 @@ public class PlayerScript : MonoBehaviour
     public bool gamePadNotMouse = false;
 
     [Header("Timers")]
-    public float remainingFuelTimer = 0;
+    private float remainingFuelTimer = 0;
     private float remainingFuelTimeToDisappear = .5f;
     [Header("Drag Values")]
     private float defaultDrag = .05f;
@@ -42,7 +42,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Horizontal Movement")]
     public float direction;
     private float baseSpeed = 15f;
-    public float maxSpeed = 10f;
+    private float maxSpeed = 11f;
     public float horizontalSpeed;
     public bool facingRight = true;
     public bool movementDisabled;
@@ -59,40 +59,41 @@ public class PlayerScript : MonoBehaviour
     [Header("Collision")]
     public bool onGround = false;
     public bool trulyOnGround = false;
-    public float groundLength = .9f;
+    private float groundLength = .9f;
     private float legLength = .78f;
-    public Vector3 distanceToLeg = new Vector3(.52f, 0, 0);
+    private Vector3 distanceToLeg = new Vector3(.52f, 0, 0);
     public LayerMask groundLayer;
 
     [Header("Jumping")]
     public bool jumpPressed = false;
     public float jumpTimer;
-    public float jumpDelay = .15f;
+    private float jumpDelay = .15f;
     public float maxYSpeedTimer;
-    public float maxYSpeedDelay = .6f;
-    public float jumpForce = 10f;
+    private float maxYSpeedDelay = .7f;
+    private float jumpForce = 7f;
 
     [Header("Charging")]
     public bool chargePressed = false;
     public bool isCharging = false;
-    public float chargeTime = 1f;
+    private float chargeTime = 1f;
     private float chargeTimer = 0f;
-    public float chargeCooldown = 3f;
+    private float chargeCooldown = 3f;
     private float chargeCooldownTimer = 0f;
-    public float chargeSpeed = 22f;
+    private float chargeSpeed = 21f;
     public Sprite chargeIndicatorImage;
     public Sprite invincibilityIndicatorImage;
     public Sprite chargeCooldownIndicatorImage;
     public SpriteRenderer chargeIndicator;
 
     [Header("Jetpack")]
-    public float jetpackTotalTime = 5f;
+    private float jetpackTotalTime = 1.4f;
     public float jetpackCurrentTime = 0f;
-    public float jetPackForce = 2f;
-    public float maxJetSpeed = 5f;
+    private float jetPackForce = 12f;
+    private float maxJetSpeed = 19f;
     private float jetpackRecoveryTimer = 0f;
-    private float jetpackRecoveryTime = 0.9f;
+    private float jetpackRecoveryTime = 0.25f;
     private float jetPackTimeRecoveryMultiplier = .85f;
+    private float slowSpeedMultiplyer = 1.4f;
     private bool jetpackOn;
     public AudioSource jetpackAudio;
 
@@ -103,9 +104,9 @@ public class PlayerScript : MonoBehaviour
     public bool jetpackBackwardsOn;
 
     [Header("Physics")]
-    public float linearDrag = 3f;
+    private float linearDrag = 3f;
     public float gravity = 1f;
-    public float fallMultiplier = 3f;
+    private float fallMultiplier = 3f;
     public bool repelOn = false;
     public bool attractOn = false;
 
@@ -512,7 +513,12 @@ public class PlayerScript : MonoBehaviour
         }
         if (!trulyOnGround && jetpackOn)
         {
-            myRigidbody2D.AddForce(new Vector2(0, jetPackForce));
+            float currentJetPackForce = jetPackForce;
+            if(myRigidbody2D.linearVelocity.y < 5)
+            {
+                currentJetPackForce *= slowSpeedMultiplyer;
+            }
+            myRigidbody2D.AddForce(new Vector2(0, currentJetPackForce));
 
             if (myRigidbody2D.linearVelocity.y > maxJetSpeed && maxYSpeedTimer < Time.time)
             {

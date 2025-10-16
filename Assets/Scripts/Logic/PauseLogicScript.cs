@@ -14,17 +14,20 @@ public class PauseLogicScript : MonoBehaviour
     {
         LogicScript.logicSingleton.Pause();
     }
-    public void Menu()
+    public void StartLevelSelect()
     {
-        LogicScript.logicSingleton.Menu();
+        LogicScript.logicSingleton.StartLevelSelect();
     }
-    public void SetControls()
+    public void ShowSettingsMenu()
     {
-        LogicScript.logicSingleton.SetControls();
+        LogicScript.logicSingleton.ShowSettingsMenu();
     }
-    public void goBack()
+    public void ShowPauseMenu()
     {
-        LogicScript.logicSingleton.goBack();
+        LogicScript.logicSingleton.ShowPauseMenu();
+    }
+    public void HideMenus() {
+        LogicScript.logicSingleton.HideMenus();
     }
     public void Quit()
     {
