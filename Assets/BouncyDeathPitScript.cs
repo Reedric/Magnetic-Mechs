@@ -5,7 +5,7 @@ public class BouncyDeathPitScript : MonoBehaviour
     [Header("Components")]
     public PlayerScript playerScript;
     [Header("variables")]
-    private float defaultDamage = 1f;
+    private float defaultDamage = 2f;
     private float defaultInvincibleTime = .5f;
     private float knockbackStrength = 1.5f;
     private void Awake()
