@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour
     public Image remainingFuelImage;
     public GameObject remainingFuelParent;
     public MagnetVisualEffectScript magnetVisualEffectScript;
-
+    
     [Header("Logic")]
     private bool playerAlive = true;
     public bool gamePadNotMouse = false;
@@ -135,6 +135,22 @@ public class PlayerScript : MonoBehaviour
     private float magnetBaseForce = 75;
     private float maximumMagnetDistance = 30;
     public AudioSource magnetAudio;
+
+    [Header("Platform Friction")]
+    public PhysicsMaterial2D lowFrictionMaterial;
+    public PhysicsMaterial2D highFrictionMaterial;
+    [Range(0f,1000f)] public float frictionLerpSpeed = 10f;
+    public float inputMemoryDuration = 0.1f;
+
+    [Header("Recent Input Timers")]
+    public float lastMoveInputTime = -10f;
+    public float lastJumpInputTime = -10f;
+    public float lastRepelInputTime = -10f;
+    public float lastAttractInputTime = -10f;
+    public bool checkMovementInput = false;
+    public bool checkJumpInput = false;
+
+    public Vector3 lastPlatformPosition;
     private void Awake()
     {
         myRigidbody2D = GetComponent<Rigidbody2D>();
@@ -261,6 +277,14 @@ public class PlayerScript : MonoBehaviour
         jetpackBackwardsOn = !trulyOnGround && Mathf.Abs(direction) > 0;
         jetpackBackwards.GetComponent<JetpackScript>().setJetpack(jetpackBackwardsOn);
         //jumpPressed = false;
+
+        //Experiment
+        if (checkMovementInput) {
+            lastMoveInputTime = Time.time;
+        }
+        if (checkJumpInput) {
+            lastJumpInputTime = Time.time;
+        }
     }
     private void FixedUpdate()
     {
@@ -270,6 +294,7 @@ public class PlayerScript : MonoBehaviour
             animator.SetBool("hasDied", false);
             return;
         }
+        UpdatePlatformFriction();
         modifyPhysics(jetpackOn);
         handleHorizontalMovement();
         handleVerticalMovement();
@@ -278,6 +303,128 @@ public class PlayerScript : MonoBehaviour
         handleCharging();
     }
 
+    public void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
+        Vector2 v = ctx.ReadValue<Vector2>();
+
+        if (ctx.performed) checkMovementInput = true;
+        if (ctx.canceled) checkMovementInput = false;
+        //Debug.Log("OnMove Activate");
+
+    }
+    public void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
+        if (ctx.performed) {
+            jumpPressed = true;
+            checkJumpInput = true;
+
+        }
+        if (ctx.canceled)
+        {
+            jumpPressed = false;
+            checkJumpInput = false;
+        }
+        //Debug.Log("OnJump Activate");
+    }
+
+    public void OnRepel(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
+        if (ctx.ReadValueAsButton()) {
+           
+            lastRepelInputTime = Time.time;
+        }
+        repelOn = ctx.ReadValueAsButton();
+    }
+    public void OnAttract(UnityEngine.InputSystem.InputAction.CallbackContext ctx) { 
+        if (ctx.ReadValueAsButton()) {
+           
+            lastAttractInputTime = Time.time;
+        }
+        attractOn = ctx.ReadValueAsButton();
+    }
+    private bool HasRecentInput()
+    {
+        //Debug.Log(lastMoveInputTime);
+        float now = Time.time;
+        
+        //Debug.Log($"RecentMove={now - lastMoveInputTime < 0.1f}, " +
+        //  $"RecentJump={now - lastJumpInputTime < 0.1f}, " +
+        //  $"RecentMagnet={now - lastRepelInputTime < 0.1f || now - lastAttractInputTime < 0.1f}");
+        //Debug.Log($"lastMoveInputTime={lastMoveInputTime}, lastJumpInputTime={lastJumpInputTime}, lastRepelInputTime={lastRepelInputTime}, lastAttractInputTime={lastAttractInputTime}, now={now}");
+        bool recentMove = now - lastMoveInputTime < inputMemoryDuration;
+        bool recentJump = now - lastJumpInputTime < inputMemoryDuration;
+        bool recentMagnet = (now - lastRepelInputTime < inputMemoryDuration && repelOn && myMagnet != null) ||
+            (now - lastAttractInputTime < inputMemoryDuration && attractOn && myMagnet != null);
+
+        return recentMove || recentJump || recentMagnet;
+    }
+    private bool IsOnMovingPlatform(out Rigidbody2D platformRb)
+    {
+        platformRb = null;
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position - distanceToLeg, Vector2.down, groundLength, groundLayer);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position + distanceToLeg, Vector2.down, groundLength, groundLayer);
+        RaycastHit2D[] hits = { hitLeft, hitRight };
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != null && hit.collider.CompareTag("MovingPlatform"))
+            {
+                platformRb = hit.collider.attachedRigidbody;
+                return true;
+            }
+        }
+        return false;
+    }
+    private float currentFriction = 0f;
+    private void UpdatePlatformFriction() {
+        if (myRigidbody2D == null) return;
+        Rigidbody2D platformRb;
+        bool onMovingPlatform = IsOnMovingPlatform(out platformRb);
+        
+        
+        bool playerInteracting = HasRecentInput();
+        //playerInteracting = false;
+        //onMovingPlatform = true;
+        //Debug.Log($"onMovingPlatform={onMovingPlatform}, playerInteracting={playerInteracting}");
+        float targetFriction = (onMovingPlatform && !playerInteracting) ? highFrictionMaterial.friction : lowFrictionMaterial.friction;
+        currentFriction = Mathf.Lerp(currentFriction, targetFriction, frictionLerpSpeed * Time.deltaTime);
+        if (myRigidbody2D.sharedMaterial == null) {
+            var mat = new PhysicsMaterial2D("runtimeMat") {friction = currentFriction, bounciness = 0f};
+            myRigidbody2D.sharedMaterial = mat;
+        }
+        else
+        {
+            myRigidbody2D.sharedMaterial.friction = currentFriction;
+        }
+        //Debug.Log(onMovingPlatform);
+        if (onMovingPlatform && platformRb!=null) {
+            Vector3 platformDelta;
+            if (lastPlatformPosition == Vector3.zero) {
+                lastPlatformPosition = platformRb.transform.position;
+            }
+
+            Vector3 tempVec = platformRb.transform.position - lastPlatformPosition;
+            platformDelta = tempVec.magnitude > 0.5f ? Vector3.zero:tempVec;
+            //Debug.Log($"{platformDelta}, {platformRb.transform.position}, {lastPlatformPosition}");
+
+
+            if (!playerInteracting && currentFriction >= highFrictionMaterial.friction * 0.5f)
+            {
+                transform.position += platformDelta;
+            }
+            
+            else {
+                //The goal is to conserve player momentum when moving on the platform
+                transform.position += platformDelta;
+            }
+            
+            
+                lastPlatformPosition = platformRb.transform.position;
+        }
+        else
+        {
+           lastPlatformPosition = Vector3.zero;
+        }
+
+        //Debug.Log($"currentFriction={currentFriction}");
+
+    }
     void handleHorizontalMovement()
     {
         animator.SetFloat("HorizontalInput", Mathf.Abs(direction));
@@ -665,8 +812,12 @@ public class PlayerScript : MonoBehaviour
     }
     public void Move(InputAction.CallbackContext context)
     {
-       direction = context.ReadValue<Vector2>().x;
-       verticalDirection = context.ReadValue<Vector2>().y;
+        Vector2 input = context.ReadValue<Vector2>();
+        direction = input.x;
+        verticalDirection = input.y;
+        if (context.performed && Mathf.Abs(input.x) > 0.1f) { 
+            lastMoveInputTime = Time.time;
+        }
     }
     public void Aim(InputAction.CallbackContext context)
     {
@@ -680,6 +831,7 @@ public class PlayerScript : MonoBehaviour
         if (context.performed)
         {
             jumpPressed = true;
+            lastJumpInputTime = Time.time;
             if (cutsceneManagerScript != null)
             {
                 cutsceneManagerScript.SkipCutscene();
@@ -735,6 +887,9 @@ public class PlayerScript : MonoBehaviour
         {
             repelOn = false;
         }
+        if (context.performed && myMagnet != null){
+            lastRepelInputTime= Time.time;
+        }
     }
     public void MagnetAttract(InputAction.CallbackContext context)
     {
@@ -745,6 +900,9 @@ public class PlayerScript : MonoBehaviour
         if (context.canceled)
         {
             attractOn = false;
+        }
+        if (context.performed && myMagnet != null){
+            lastAttractInputTime= Time.time;
         }
     }
     public void Pause(InputAction.CallbackContext context)
