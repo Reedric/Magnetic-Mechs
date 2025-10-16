@@ -16,6 +16,7 @@ public class StartScreenLogic : MonoBehaviour
     private void Awake()
     {
         myInput = GetComponent<PlayerInput>();
+        variableStorage = GameObject.FindGameObjectWithTag("MultiSceneVariables").GetComponent<MultiSceneVariables>();
     }
     public void StartGame()
     {

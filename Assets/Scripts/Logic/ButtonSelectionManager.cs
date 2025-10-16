@@ -44,7 +44,7 @@ public class ButtonSelectionManager : MonoBehaviour
             return;
         }
 
-        float change = context.ReadValue<Vector2>().x;
+        float change = context.ReadValue<Vector2>().x - context.ReadValue<Vector2>().y;
         if(Time.realtimeSinceStartup > readyToChange)
         {
             if(change > .25)
