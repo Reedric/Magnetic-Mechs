@@ -132,7 +132,8 @@ public class PlayerScript : MonoBehaviour
     public ParticleSystem DashingDust;
 
     [Header("Magnet")]
-    private float magnetBaseForce = 75;
+    private float magnetBaseForceRepulsion = 105;
+    private float magnetBaseForceAttraction = -94;
     private float maximumMagnetDistance = 30;
     public AudioSource magnetAudio;
 
@@ -774,12 +775,14 @@ public class PlayerScript : MonoBehaviour
         if (magnetDistance < (maximumMagnetDistance))
         {
             magnetVisualEffectScript.StartMagnetEffect(repelOn);
-            repulse(magnetRelativePosition.normalized, magnetBaseForce / (float)Math.Sqrt(magnetDistance));
+            applyMagnetism(magnetRelativePosition.normalized, magnetDistance);
         }
     }
-    void repulse(Vector2 forceDirection, float forceMagnitude)
+    void applyMagnetism(Vector2 forceDirection, float magnetDistance)
     {
-        if (attractOn) forceMagnitude *= -1.25f;
+        float forceMagnitude = 1 / (float)Math.Sqrt(magnetDistance);
+        if (attractOn) forceMagnitude *= magnetBaseForceAttraction;
+        else forceMagnitude *= magnetBaseForceRepulsion;
         myRigidbody2D.AddForce(forceDirection * forceMagnitude, ForceMode2D.Force);
     }
     public void KillPlayer()
