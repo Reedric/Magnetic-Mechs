@@ -914,7 +914,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.performed)
         {
-            logic.Pause();
+            logic.SetPausePressed();
         }
     }
     private void OnDrawGizmos()
