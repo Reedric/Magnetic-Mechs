@@ -223,6 +223,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4558631937981226006, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1606116470}
+    - target: {fileID: 4558631937981226006, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetAllBindings
+      objectReference: {fileID: 0}
     - target: {fileID: 5964319332921603192, guid: 80ada91b67b5d1c43b715a77187a2406, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -33947,7 +33955,7 @@ Transform:
   m_GameObject: {fileID: 1542523168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.72687, y: 1.0705299, z: -10}
+  m_LocalPosition: {x: -43.72986, y: 1.0705199, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34228,6 +34236,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bad76bd6d69e98549aed4fcff0a070eb, type: 3}
+--- !u!114 &1606116470 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3084245502168479063, guid: bad76bd6d69e98549aed4fcff0a070eb, type: 3}
+  m_PrefabInstance: {fileID: 1606116469}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972759165d48f05429486a281a138c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1693776068
 GameObject:
   m_ObjectHideFlags: 0
@@ -34403,6 +34422,7 @@ MonoBehaviour:
   virtualCameraPlayer: {fileID: 724935077}
   virtualCameraBoss: {fileID: 1243902499}
   audioSource: {fileID: 1931092916}
+  audioManager: {fileID: 55331400}
 --- !u!61 &1793572570
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -35214,6 +35234,7 @@ MonoBehaviour:
   myRigidbody2D: {fileID: 0}
   sprite: {fileID: 0}
   backgroundMusic: {fileID: 1931092916}
+  audioManager: {fileID: 55331400}
   horizontalCheckLength: 5
   groundCheckHeight: 3
   rockSpawnerScript: {fileID: 954579423}
