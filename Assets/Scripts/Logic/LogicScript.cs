@@ -27,6 +27,7 @@ public class LogicScript : MonoBehaviour
     public static LogicScript logicSingleton;
 
     private GameMenuState menuState;
+    private bool pausePressed;
 
     private void Awake()
     {
@@ -38,6 +39,12 @@ public class LogicScript : MonoBehaviour
     private void Start()
     {
         buttonSelectionManager.SetGameMenuState(GameMenuState.PLAYING);
+    }
+    private void Update() {
+        if (pausePressed) {
+            Pause();
+            pausePressed = false;
+        }
     }
     public void TryAgain()
     {
@@ -81,9 +88,11 @@ public class LogicScript : MonoBehaviour
     {
         gameOverScreen.SetActive(true);
     }
+    public void SetPausePressed() {
+        pausePressed = true;
+    }
     public void Pause()
     {
-        //Debug.Log("Pause from old state = " + menuState);
         switch (menuState) {
             case GameMenuState.PLAYING:
                 ShowPauseMenu();
@@ -94,13 +103,15 @@ public class LogicScript : MonoBehaviour
             case GameMenuState.SETTINGS_MENU:
                 ShowPauseMenu();
                 break;
+            default:
+                break;
         }
     }
     public void ShowSettingsMenu()
     {
         // Pause game
         Time.timeScale = 0.0f;
-        playerInput.SwitchCurrentActionMap("UI");
+        //playerInput.SwitchCurrentActionMap("UI");
 
         // Show settings menu
         pauseScreen.SetActive(false);
@@ -109,8 +120,6 @@ public class LogicScript : MonoBehaviour
         // Update button selection visual
         menuState = GameMenuState.SETTINGS_MENU;
         buttonSelectionManager.SetGameMenuState(menuState);
-
-        //Debug.Log("ShowSettingsMenu; new state = " + menuState);
     }
     public void ShowPauseMenu()
     {
@@ -125,8 +134,6 @@ public class LogicScript : MonoBehaviour
         // Update button selection visual
         menuState = GameMenuState.PAUSE_MENU;
         buttonSelectionManager.SetGameMenuState(menuState);
-
-        //Debug.Log("ShowPauseMenu; new state = " + menuState);
     }
     public void HideMenus()
     {
@@ -139,8 +146,6 @@ public class LogicScript : MonoBehaviour
         settingsScreen.SetActive(false);
         
         menuState = GameMenuState.PLAYING;
-
-        //Debug.Log("HideMenus; new state = " + menuState);
     }
     /*
     public void changeBind(GameObject button)
