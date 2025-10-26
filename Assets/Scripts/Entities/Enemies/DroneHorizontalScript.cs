@@ -119,7 +119,7 @@ public class DroneHorizontalScript : MonoBehaviour
     {
         if(DroneSpawnerTransform == null)
         {
-            Debug.Log("Drone Spawned without a drone spawner");
+            //Debug.Log("Drone Spawned without a drone spawner");
             return;
         }
         float leftDespawn = DroneSpawnerTransform.position.x - MaxXDistance;

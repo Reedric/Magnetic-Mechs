@@ -56,7 +56,7 @@ public class SpiderQueenHealthScript : MonoBehaviour
     public void HandleBossDeath()
     {
         if (robotSpiderQueenScript == null) return;
-        logic.StartStage4Delay();
+        logic.StartPostSpiderBossDelay();
         robotSpiderQueenScript.KillBoss();
     }
 }

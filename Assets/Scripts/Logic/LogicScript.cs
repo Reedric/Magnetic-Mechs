@@ -18,6 +18,7 @@ public class LogicScript : MonoBehaviour
     [Header("Components")]
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
+    private MultiSceneVariables multiSceneVariables;
     //public Text remainingFuelText;
     public GameObject settingsScreen;
     public PlayerInput playerInput;
@@ -35,6 +36,7 @@ public class LogicScript : MonoBehaviour
         {
             logicSingleton = this;
         }
+        multiSceneVariables = GameObject.FindGameObjectWithTag("MultiSceneVariables").GetComponent<MultiSceneVariables>();
     }
     private void Start()
     {
@@ -56,27 +58,43 @@ public class LogicScript : MonoBehaviour
 
     public void StartLevelTwo()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 2");
     }
     public void StartLevelThree()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 3");
     }
     public void StartLevelFour()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 4");
     }
     public void StartLevelFive()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 5");
     }
     public void StartLevelSix()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 6");
     }
     public void StartLevelSeven()
     {
+        multiSceneVariables.setCheckpoint(0);
         SceneManager.LoadScene("Level 7");
+    }
+    public void StartLevelEight()
+    {
+        multiSceneVariables.setCheckpoint(0);
+        SceneManager.LoadScene("Level 8");
+    }
+    public void StartLevelNine()
+    {
+        multiSceneVariables.setCheckpoint(0);
+        SceneManager.LoadScene("Level 9");
     }
     public void StartLevelSelect()
     {
@@ -161,13 +179,22 @@ public class LogicScript : MonoBehaviour
     {
         get { return menuState != GameMenuState.PLAYING; }
     }
-    public void StartStage4Delay()
+    public void StartPostSpiderBossDelay()
     {
-        StartCoroutine(StartStage4(3f));
+        StartCoroutine(StartPostSpiderBoss(3f));
     }
-    public IEnumerator StartStage4(float delay)
+    public IEnumerator StartPostSpiderBoss(float delay)
     {
         yield return new WaitForSeconds(delay);
-        StartLevelFour();
+        StartLevelFive();
+    }
+    public void StartPostBeeBossDelay()
+    {
+        StartCoroutine(StartPostBeeBoss(3f));
+    }
+    public IEnumerator StartPostBeeBoss(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StartLevelNine();
     }
 }
