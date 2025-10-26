@@ -188,13 +188,13 @@ public class LogicScript : MonoBehaviour
         yield return new WaitForSeconds(delay);
         StartLevelFive();
     }
-    public void StartPostBeeBossDelay()
-    {
-        StartCoroutine(StartPostBeeBoss(3f));
-    }
-    public IEnumerator StartPostBeeBoss(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        StartLevelNine();
-    }
+    // public void StartPostBeeBossDelay()
+    // {
+    //     StartCoroutine(StartPostBeeBoss(3f));
+    // }
+    // public IEnumerator StartPostBeeBoss(float delay)
+    // {
+    //     yield return new WaitForSeconds(delay);
+    //     StartLevelNine();
+    // }
 }
